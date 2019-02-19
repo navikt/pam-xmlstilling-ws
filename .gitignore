@@ -1,4 +1,5 @@
 target
 .idea/
 *.iml
+APP_LOG_HOME_IS_UNDEFINED
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <property name="MAIN_APPLICATION" value="xmlstilling-ws" />
+
+    <appender name="debugFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${APP_LOG_HOME}/${applicationName}-debug.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${APP_LOG_HOME}/${applicationName}-debug-%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d [%-5p] [%t] %m -- %c%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="errorFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${APP_LOG_HOME}/${applicationName}-error.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${APP_LOG_HOME}/${applicationName}-error-%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+
+        <encoder>
+            <pattern>%d [%-5p] [%t] %m -- %c%n - %throwable{short}%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <root level="INFO">
+        <appender-ref ref="debugFileAppender"/>
+        <appender-ref ref="errorFileAppender"/>
+    </root>
+
+    <logger name="org" level="WARN" />
+    <logger name="com" level="WARN" />
+    <logger name="aetat" level="INFO" />
+
+
+</configuration>

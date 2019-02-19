@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<SOAP-ENV:Envelope xmlns:m="http://www.nav.no/nav_stilling_reg.wsdl" xmlns:m0="http://www.nav.no/nav_stilling_typer.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:m2="http://ns.hr-xml.org/2007-04-15" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Body>
+    <m:LeggInnStillinger>
+      <StillingListe>
+        <m0:PositionOpening>
+          <PositionPostings>
+            <PositionPosting>
+              <Id>
+                <IdValue>283309507</IdValue>
+              </Id>
+            </PositionPosting>
+          </PositionPostings>
+          <PositionSupplier>
+            <SupplierId>
+              <IdValue>Recruiter</IdValue>
+            </SupplierId>
+            <EntityName>Banken</EntityName>
+            <ContactMethod>
+              <Telephone>
+                <FormattedNumber>07300</FormattedNumber>
+              </Telephone>
+              <Fax>
+                <FormattedNumber>77 66 55 44</FormattedNumber>
+              </Fax>
+            </ContactMethod>
+            <Role />
+          </PositionSupplier>
+          <PositionProfile>
+            <ProfileName>Banksjef Soendre Innherred</ProfileName>
+            <PositionDateInfo>
+              <StartDate />
+              <ExpectedEndDate />
+              <MaximumStartDate />
+              <MaximumEndDate />
+              <StartAsSoonAsPossible>false</StartAsSoonAsPossible>
+            </PositionDateInfo>
+            <Organization>Banken er regionens ledende bank. Vi tilbyr et bredt og tidsriktig produktspekter innen sparing, laan, forsikring og betaling.</Organization>
+            <PositionDetail>
+              <Company />
+              <PhysicalLocation>
+                <Name>Nord-Troendelag</Name>
+                <PostalAddress>
+                  <PostalCode>7467</PostalCode>
+                  <Recipient>
+                    <PersonName>
+                      <FormattedName>Ola Normann</FormattedName>
+                    </PersonName>
+                  </Recipient>
+                  <DeliveryAddress>
+                    <AddressLine>Fokusbygget paa Rosten</AddressLine>
+                  </DeliveryAddress>
+                </PostalAddress>
+              </PhysicalLocation>
+              <JobCategory>
+                <CategoryDescription />
+              </JobCategory>
+              <PositionTitle />
+              <PositionClassification />
+              <PositionSchedule percentage="100" />
+              <Competency name="" required="" />
+              <JobLevelInfo>
+                <JobPlan />
+                <JobGrade />
+              </JobLevelInfo>
+            </PositionDetail>
+            <FormattedPositionDescription>
+              <Value>Stillingsbeskrivelse</Value>
+            </FormattedPositionDescription>
+            <HowToApply>
+              <PersonName>Kari Normann</PersonName>
+              <ApplicationMethod>
+                <Telephone>
+                  <FormattedNumber>33 22 11 55</FormattedNumber>
+                </Telephone>
+                <InternetEmailAddress />
+                <InternetWebAddress>http://www.bankenshjemmeside.no</InternetWebAddress>
+                <PostalAddress>
+                  <PostalCode>7467</PostalCode>
+                  <Recipient>
+                    <PersonName>Ole Normann</PersonName>
+                  </Recipient>
+                  <DeliveryAddress>
+                    <AddressLine>Fokusbygget paa Rosten</AddressLine>
+                    <StreetName />
+                    <PostOfficeBox />
+                  </DeliveryAddress>
+                </PostalAddress>
+              </ApplicationMethod>
+            </HowToApply>
+          </PositionProfile>
+          <NumberToFill>1</NumberToFill>
+        </m0:PositionOpening>
+        <m0:PositionOpening>
+          <PositionPostings>
+            <PositionPosting>
+              <Id>
+                <IdValue>275307656</IdValue>
+              </Id>
+            </PositionPosting>
+          </PositionPostings>
+          <PositionSupplier>
+            <SupplierId>
+              <IdValue>Recruiter</IdValue>
+            </SupplierId>
+            <EntityName>YIT Building Systems AS</EntityName>
+            <ContactMethod>
+              <Telephone>
+                <FormattedNumber>11 22 33 44</FormattedNumber>
+              </Telephone>
+              <Fax>
+                <FormattedNumber />
+              </Fax>
+            </ContactMethod>
+            <Role />
+          </PositionSupplier>
+          <PositionProfile>
+            <ProfileName>Avdelingsleder prosjekt</ProfileName>
+            <PositionDateInfo>
+              <StartDate />
+              <ExpectedEndDate />
+              <MaximumStartDate />
+              <MaximumEndDate />
+              <StartAsSoonAsPossible>false</StartAsSoonAsPossible>
+            </PositionDateInfo>
+            <Organization>NN er Norges ledende leverandoer av tekniske bygginstallasjoner.</Organization>
+            <PositionDetail>
+              <Company />
+              <PhysicalLocation>
+                <Name>Rogaland</Name>
+                <PostalAddress>
+                  <PostalCode>5537</PostalCode>
+                  <Recipient>
+                    <PersonName>
+                      <FormattedName>Kari Normann</FormattedName>
+                    </PersonName>
+                  </Recipient>
+                  <DeliveryAddress>
+                    <AddressLine>Kariveien 11c</AddressLine>
+                  </DeliveryAddress>
+                </PostalAddress>
+              </PhysicalLocation>
+              <JobCategory>
+                <CategoryDescription />
+              </JobCategory>
+              <PositionTitle />
+              <PositionClassification />
+              <PositionSchedule percentage="100" />
+              <Competency name="" required="" />
+              <JobLevelInfo>
+                <JobPlan />
+                <JobGrade />
+              </JobLevelInfo>
+            </PositionDetail>
+            <FormattedPositionDescription>
+              <Value>Stillingsbeskrivelse</Value>
+            </FormattedPositionDescription>
+            <HowToApply>
+              <PersonName>Ola Normann</PersonName>
+              <ApplicationMethod>
+                <Telephone>
+                  <FormattedNumber>44 55 66 77</FormattedNumber>
+                </Telephone>
+                <InternetEmailAddress />
+                <InternetWebAddress />
+                <PostalAddress>
+                  <PostalCode>5537</PostalCode>
+                  <Recipient>
+                    <PersonName>Kari Normann</PersonName>
+                  </Recipient>
+                  <DeliveryAddress>
+                    <AddressLine>Kariveien 11c</AddressLine>
+                    <StreetName />
+                    <PostOfficeBox />
+                  </DeliveryAddress>
+                </PostalAddress>
+              </ApplicationMethod>
+            </HowToApply>
+          </PositionProfile>
+          <NumberToFill>1</NumberToFill>
+        </m0:PositionOpening>
+      </StillingListe>
+    </m:LeggInnStillinger>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

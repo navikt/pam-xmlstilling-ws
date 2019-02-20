@@ -3,11 +3,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <parent>
+    <!--parent>
         <groupId>no.nav.sbl</groupId>
         <artifactId>mor-pom</artifactId>
         <version>3.1</version>
-    </parent>
+    </parent-->
 
     <groupId>no.nav.sbl.xmlstilling</groupId>
     <artifactId>xmlstilling-ws</artifactId>
@@ -21,8 +21,7 @@
     </description>
 
     <properties>
-        <common-test.version>1.2</common-test.version>
-        <common-jetty.version>2.0.11</common-jetty.version>
+        <java.jdk.version>1.8</java.jdk.version>
         <junit.version>4.11</junit.version>
         <spring.version>4.2.6.RELEASE</spring.version>
         <spring.security.version>4.2.3.RELEASE</spring.security.version>
@@ -31,9 +30,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <session.cookie.secure>true</session.cookie.secure>
         <nav.sbl.entity.version>1.24</nav.sbl.entity.version>
-        <sonar.exclusions>
-            **/selftest/**
-        </sonar.exclusions>
     </properties>
 
     <profiles>
@@ -48,6 +44,14 @@
     <build>
         <plugins>
             <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>${java.jdk.version}</source>
+                    <target>${java.jdk.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.18</version>
                 <executions>
@@ -58,7 +62,34 @@
                             <goal>test</goal>
                         </goals>
                         <configuration>
-                            <argLine>-Dfile.encoding=UTF-8 ${argLine}</argLine>
+                            <argLine>-Dfile.encoding=UTF-8</argLine>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.9</version>
+                <executions>
+                    <execution>
+                        <id>analyze</id>
+                        <goals>
+                            <goal>analyze-only</goal>
+                        </goals>
+                        <configuration>
+                            <failOnWarning>true</failOnWarning>
+                            <ignoreNonCompile>true</ignoreNonCompile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>analyze-pom</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>analyze-dep-mgt</goal>
+                        </goals>
+                        <configuration>
+                            <failBuild>true</failBuild>
+                            <ignoreDirect>false</ignoreDirect>
                         </configuration>
                     </execution>
                 </executions>
@@ -274,6 +305,20 @@
         <developerConnection>scm:git:https://github.com/navikt/xmlstilling-ws.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>m2internal</id>
+            <name>NAV Maven2 Internal Repository</name>
+            <url>http://maven.adeo.no/nexus/content/repositories/m2internal</url>
+        </repository>
+        <snapshotRepository>
+            <id>m2snapshot</id>
+            <name>NAV Maven2 Snapshot Repository</name>
+            <url>http://maven.adeo.no/nexus/content/repositories/m2snapshot</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
 	
 
 </project>

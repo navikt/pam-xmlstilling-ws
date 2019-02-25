@@ -35,7 +35,6 @@ public class SelftestRequestHandler implements HttpRequestHandler {
     private final List<Factory<Status>> statusChecks = new ArrayList<Factory<Status>>();
 
     @Autowired
-    @Qualifier("sixdbDataSource")
     private DataSource sixDb;
 
     @Autowired

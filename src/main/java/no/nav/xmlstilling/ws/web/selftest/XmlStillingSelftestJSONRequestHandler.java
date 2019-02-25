@@ -28,7 +28,6 @@ public class XmlStillingSelftestJSONRequestHandler extends SelftestJSONRequestHa
     private ServletContext servletContext;
 
     @Autowired
-    @Qualifier("sixdbDataSource")
     private DataSource sixDb;
 
     private final List<Factory<Status>> statusChecks = new ArrayList<Factory<Status>>();

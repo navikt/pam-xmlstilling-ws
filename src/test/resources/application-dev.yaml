@@ -1,0 +1,8 @@
+xmlstilling.batch.mndTilbake: 6
+xmlstilling.batch.node: TODO
+xmlstilling.batch.cron: 0 0 2 * * SUN
+spring:
+  datasource:
+    url: ${AETATNOXMLSTILLINGADMINDS_URL}
+    username: ${AETATNOXMLSTILLINGADMINDS_USERNAME}
+    password: ${AETATNOXMLSTILLINGADMINDS_PASSWORD}

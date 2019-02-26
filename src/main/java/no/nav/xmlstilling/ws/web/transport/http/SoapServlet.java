@@ -2,12 +2,12 @@ package no.nav.xmlstilling.ws.web.transport.http;
 
 import no.nav.xmlstilling.ws.common.util.ConverterUtils;
 import no.nav.xmlstilling.ws.common.util.XMLValidatorHelper;
-import no.nav.xmlstilling.ws.common.vo.KallLoggVO;
 import no.nav.xmlstilling.ws.common.vo.StillingBatchVO;
-import no.nav.xmlstilling.ws.service.facade.KallLoggFacadeBean;
 import no.nav.xmlstilling.ws.service.facade.StillingBatchFacadeBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,17 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-/**
- * SoapServlet - egen servlet for hoyvolum sendinger
- */
 public abstract class SoapServlet extends HttpServlet {
-
-    private static final String STJERNE = "*";
-    private static final String RETNING_INN = "INN";
-    private static final String TEKST_OK = "OK";
-    private static final String WSDL_NAVN = "six_sokeprofil_adm.wsdl";
-    private static final String KALL_NAVN = "LeggInnStillinger";
-    private static final String HIGH_CAPACITY_MESSAGE = "Høykapasitetsmelding";
     private static final String CONTENT_TYPE_TEXT_XML = "text/xml";
     private static final String INITIATED_MESSAGE = " initiated";
     public static final String BEHANDLET_STATUS_OK_UBEHANDLET_0 = "0";
@@ -35,34 +25,28 @@ public abstract class SoapServlet extends HttpServlet {
 
     private static transient Logger logger = LoggerFactory.getLogger(SoapServlet.class);
 
+    @Autowired
     private StillingBatchFacadeBean stillingBatchFacadeBean;
-    private KallLoggFacadeBean kallLoggFacadeBean;
+
 
     public void setStillingBatchFacadeBean(StillingBatchFacadeBean stillingBatchFacadeBean) {
         this.stillingBatchFacadeBean = stillingBatchFacadeBean;
     }
 
-    public void setKallLoggFacadeBean(KallLoggFacadeBean kallLoggFacadeBean) {
-        this.kallLoggFacadeBean = kallLoggFacadeBean;
-    }
 
     @Override
+   // @PostConstruct
     public void init() throws javax.servlet.ServletException {
         logger.debug(this.getClass().getName() + INITIATED_MESSAGE);
 
         if (stillingBatchFacadeBean == null) {
             setStillingBatchFacadeBean(StillingBatchFacadeBean.getInstance());
         }
-
-        if (kallLoggFacadeBean == null) {
-            setKallLoggFacadeBean(KallLoggFacadeBean.getInstance());
-        }
     }
 
     @Override
+    @GetMapping("/SixSoap")
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        long start = System.currentTimeMillis();
-
         BufferedReader br = req.getReader();
         String stillingXml = ConverterUtils.read(br);
 
@@ -70,7 +54,7 @@ public abstract class SoapServlet extends HttpServlet {
         if (stillingXml.trim().length() == 0) {
             logger.info("stillingxml var tom streng!");
             soapSvar = getResponseMessage(false);
-
+            opprettOgProsesserStillingbatch("<xml>foobar</xml>", "Test", true);
         } else {
             String eksterntBrukerNavn = req.getUserPrincipal().getName();
 
@@ -87,10 +71,6 @@ public abstract class SoapServlet extends HttpServlet {
         out.write(soapSvar);
         out.flush();
         out.close();
-
-        long slutt = System.currentTimeMillis();
-
-        loggTilKallLogg(stillingXml, soapSvar, slutt - start);
     }
 
     // Returnerer SoapServletResponse-objektet som gjelder for den aktuelle SoapServlet-versjonen.
@@ -109,26 +89,6 @@ public abstract class SoapServlet extends HttpServlet {
 
         // Skriver posten til databasen
         stillingBatchVO = stillingBatchFacadeBean.insertStillingBatch(stillingBatchVO);
-    }
-
-    private void loggTilKallLogg(String meldingInn, String meldingUt, long processingTime) {
-        KallLoggVO kallLoggVO = new KallLoggVO();
-
-        kallLoggVO.setKallRetning(RETNING_INN);
-        kallLoggVO.setKorrelasjonsId(STJERNE);
-        kallLoggVO.setWsdlNavn(WSDL_NAVN);
-        kallLoggVO.setResultatkode(TEKST_OK);
-        kallLoggVO.setResultatbeskjed(HIGH_CAPACITY_MESSAGE);
-        kallLoggVO.setKallNavn(KALL_NAVN);
-        kallLoggVO.setBehandlingstid(new java.math.BigDecimal(processingTime));
-        kallLoggVO.setTimeStampMottatt(new java.sql.Timestamp(System.currentTimeMillis()));
-        kallLoggVO.setMeldingInn(meldingInn);
-        kallLoggVO.setMeldingUt(meldingUt);
-
-        kallLoggVO = kallLoggFacadeBean.insertKallLogg(kallLoggVO);
-        if (null != kallLoggVO) {
-            logger.debug("--------------------------> kallLoggVO -> Ny ident = (" + kallLoggVO.getLoggId() + ")");
-        }
     }
 
     private String finnInnholdMellomTag(String stillingXml) {

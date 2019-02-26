@@ -1,5 +1,10 @@
 package no.nav.xmlstilling.ws.web.transport.http;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/")
 public class SoapServletV1 extends SoapServlet {
 
     @Override

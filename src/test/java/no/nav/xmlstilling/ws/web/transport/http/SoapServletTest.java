@@ -1,8 +1,6 @@
 package no.nav.xmlstilling.ws.web.transport.http;
 
-import no.nav.xmlstilling.ws.common.vo.KallLoggVO;
 import no.nav.xmlstilling.ws.common.vo.StillingBatchVO;
-import no.nav.xmlstilling.ws.service.facade.KallLoggFacadeBean;
 import no.nav.xmlstilling.ws.service.facade.StillingBatchFacadeBean;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,14 +40,11 @@ public class SoapServletTest {
             "   </soapenv:Body>" +
             "</soapenv:Envelope>";
 
-    private KallLoggFacadeBean kallLoggFacadeBean;
-
     @Before
     public void setUp() throws IOException, ServletException {
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
         writer = mock(PrintWriter.class);
-        kallLoggFacadeBean = mock(KallLoggFacadeBean.class);
         stillingBatchFacadeBean = mock(StillingBatchFacadeBean.class);
 
         when(request.getReader()).thenReturn(new BufferedReader(new StringReader(xmlStub)));
@@ -57,7 +52,6 @@ public class SoapServletTest {
         when(response.getWriter()).thenReturn(writer);
 
         soapServlet = new SoapServletV2();
-        soapServlet.setKallLoggFacadeBean(kallLoggFacadeBean);
         soapServlet.setStillingBatchFacadeBean(stillingBatchFacadeBean);
         soapServlet.init();
     }
@@ -86,7 +80,6 @@ public class SoapServletTest {
     @Test
     public void soapServletV1Respons() throws ServletException, IOException {
         soapServlet = new SoapServletV1();
-        soapServlet.setKallLoggFacadeBean(kallLoggFacadeBean);
         soapServlet.setStillingBatchFacadeBean(stillingBatchFacadeBean);
         soapServlet.init();
 
@@ -120,20 +113,4 @@ public class SoapServletTest {
 
     }
 
-    @Test
-    public void soapServletLoggerTilKallLogg() throws ServletException, IOException {
-        soapServlet.service(request, response);
-
-        ArgumentCaptor<KallLoggVO> argument = ArgumentCaptor.forClass(KallLoggVO.class);
-        verify(kallLoggFacadeBean).insertKallLogg(argument.capture());
-
-        assertEquals("INN", argument.getValue().getKallRetning());
-        assertEquals("*", argument.getValue().getKorrelasjonsId());
-        assertEquals("six_sokeprofil_adm.wsdl", argument.getValue().getWsdlNavn());
-        assertEquals("OK", argument.getValue().getResultatkode());
-        assertEquals("Høykapasitetsmelding", argument.getValue().getResultatbeskjed());
-        assertEquals("LeggInnStillinger", argument.getValue().getKallNavn());
-        assertThat(argument.getValue().getMeldingInn(), containsString("<LeggInnStillinger"));
-        assertThat(argument.getValue().getMeldingUt(), containsString("MOTTATT"));
-    }
 }

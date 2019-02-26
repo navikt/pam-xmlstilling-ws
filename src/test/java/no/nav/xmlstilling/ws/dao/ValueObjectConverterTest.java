@@ -4,10 +4,9 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
-import no.nav.sbl.entity.six.*;
+import no.nav.sbl.entity.six.EksternBrukerEntity;
+import no.nav.sbl.entity.six.StillingBatchEntity;
 import no.nav.xmlstilling.ws.common.vo.EksternBrukerVO;
-import no.nav.xmlstilling.ws.common.vo.KallLoggVO;
-import no.nav.xmlstilling.ws.common.vo.KallLoggtypeVO;
 import no.nav.xmlstilling.ws.common.vo.StillingBatchVO;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,10 +16,10 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+import static no.nav.xmlstilling.ws.dao.ValueObjectConverter.*;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static no.nav.xmlstilling.ws.dao.ValueObjectConverter.*;
 
 public class ValueObjectConverterTest {
 
@@ -80,53 +79,6 @@ public class ValueObjectConverterTest {
         assertEquals(new Timestamp(timeInMillis), eksternBrukerVO.getEndretDato());
         assertEquals("0654", eksternBrukerVO.getPostNr());
         assertEquals(new BigDecimal(123), eksternBrukerVO.getXslTemplateId());
-    }
-
-    @Test
-    public void testGetKallLoggValueObject() throws Exception {
-        KallLoggEntity kallLoggEntity = new KallLoggEntity();
-        long timeInMillis = Calendar.getInstance().getTimeInMillis();
-        kallLoggEntity.setTimestampEkstern(new Timestamp(timeInMillis));
-        kallLoggEntity.setKallNavn("FOO");
-
-        KallLoggVO kallLoggValueObject = getKallLoggValueObject(kallLoggEntity);
-
-        assertEquals(new Timestamp(timeInMillis), kallLoggValueObject.getTimestampEkstern());
-        assertEquals("FOO", kallLoggValueObject.getKallNavn());
-    }
-
-    @Test
-    public void testGetKallLoggEntityForValueObject() throws Exception {
-        KallLoggVO kallLoggVO = new KallLoggVO();
-        long timeInMillis = Calendar.getInstance().getTimeInMillis();
-        kallLoggVO.setTimestampEkstern(new Timestamp(timeInMillis));
-        kallLoggVO.setKallNavn("FOO");
-
-        KallLoggEntity kallLoggEntityForValueObject = getKallLoggEntityForValueObject(kallLoggVO);
-
-        assertEquals(new Timestamp(timeInMillis), kallLoggEntityForValueObject.getTimestampEkstern());
-        assertEquals("FOO", kallLoggEntityForValueObject.getKallNavn());
-    }
-
-    @Test
-    public void testGetKallLoggTypeValueObject() throws Exception {
-        KallLoggTypeEntity kallLoggTypeEntity = new KallLoggTypeEntity();
-        kallLoggTypeEntity.setKallNavn("FOO");
-
-        KallLoggtypeVO kallLoggTypeValueObject = getKallLoggTypeValueObject(kallLoggTypeEntity);
-
-        assertEquals("FOO", kallLoggTypeValueObject.getKallNavn());
-    }
-
-    @Test
-    public void testGetKallLoggTypeEntityForValueObject() throws Exception {
-        KallLoggtypeVO kallLoggtypeVO = new KallLoggtypeVO();
-        kallLoggtypeVO.setLoggNivaa("FOO");
-
-        KallLoggTypeEntity kallLoggTypeEntityForValueObject = getKallLoggTypeEntityForValueObject(kallLoggtypeVO);
-
-        assertEquals("FOO", kallLoggTypeEntityForValueObject.getLoggNivaa());
-
     }
 
     @Test

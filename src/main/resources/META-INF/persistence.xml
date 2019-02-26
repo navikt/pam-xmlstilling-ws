@@ -9,8 +9,6 @@
        <non-jta-data-source>java:jboss/jdbc/sixdb</non-jta-data-source>
        <class>no.nav.sbl.entity.six.EksternBrukerEntity</class>
        <class>no.nav.sbl.entity.six.StillingBatchEntity</class>
-       <class>no.nav.sbl.entity.six.KallLoggEntity</class>
-       <class>no.nav.sbl.entity.six.KallLoggTypeEntity</class>
        <class>no.nav.sbl.entity.six.FeilLoggEntity</class>
        <class>no.nav.sbl.entity.six.XSLTemplateEntity</class>
        <properties>

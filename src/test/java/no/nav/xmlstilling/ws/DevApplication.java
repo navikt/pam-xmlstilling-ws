@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @SpringBootApplication
-//@EnableJpaRepositories("no.nav.sbl.entity.six")
 public class DevApplication extends SpringBootServletInitializer {
 
     @Override

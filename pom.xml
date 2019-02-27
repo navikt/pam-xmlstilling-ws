@@ -213,17 +213,6 @@
             <version>2.2.2</version>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>no.nav.sbl.entity</groupId>
-            <artifactId>nav-sbl-entity</artifactId>
-            <version>${nav.sbl.entity.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
         <dependency>
             <groupId>javax.xml</groupId>

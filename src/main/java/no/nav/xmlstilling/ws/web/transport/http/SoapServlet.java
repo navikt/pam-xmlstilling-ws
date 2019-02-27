@@ -54,7 +54,7 @@ public abstract class SoapServlet extends HttpServlet {
         if (stillingXml.trim().length() == 0) {
             logger.info("stillingxml var tom streng!");
             soapSvar = getResponseMessage(false);
-            opprettOgProsesserStillingbatch("<xml>foobar</xml>", "Test", true);
+            //opprettOgProsesserStillingbatch("<xml>foobar</xml>", "Test", true);
         } else {
             String eksterntBrukerNavn = req.getUserPrincipal().getName();
 

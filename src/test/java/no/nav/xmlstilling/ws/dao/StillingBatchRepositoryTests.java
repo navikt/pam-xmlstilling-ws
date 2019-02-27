@@ -1,10 +1,9 @@
 package no.nav.xmlstilling.ws.dao;
 
-import no.nav.sbl.entity.six.StillingBatchEntity;
+import no.nav.xmlstilling.ws.entity.StillingBatchEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,7 +16,6 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@EntityScan("no.nav.sbl.entity.six")
 @ComponentScan
 public class StillingBatchRepositoryTests {
 

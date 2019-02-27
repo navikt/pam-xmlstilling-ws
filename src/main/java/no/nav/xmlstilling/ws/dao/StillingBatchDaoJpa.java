@@ -1,6 +1,6 @@
 package no.nav.xmlstilling.ws.dao;
 
-import no.nav.sbl.entity.six.StillingBatchEntity;
+import no.nav.xmlstilling.ws.entity.StillingBatchEntity;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;

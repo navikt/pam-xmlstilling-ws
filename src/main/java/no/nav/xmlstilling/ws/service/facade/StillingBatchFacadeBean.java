@@ -1,10 +1,10 @@
 package no.nav.xmlstilling.ws.service.facade;
 
 import aetat.arch.vo.ValueObject;
-import no.nav.sbl.entity.six.StillingBatchEntity;
 import no.nav.xmlstilling.ws.common.vo.StillingBatchVO;
 import no.nav.xmlstilling.ws.dao.StillingBatchDaoJpa;
 import no.nav.xmlstilling.ws.dao.ValueObjectConverter;
+import no.nav.xmlstilling.ws.entity.StillingBatchEntity;
 import no.nav.xmlstilling.ws.exception.SystemException;
 import no.nav.xmlstilling.ws.spring.SpringContextProvider;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,7 +7,7 @@ import no.nav.xmlstilling.ws.service.facade.StillingBatchFacadeBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +19,6 @@ import java.io.PrintWriter;
 
 public abstract class SoapServlet extends HttpServlet {
     private static final String CONTENT_TYPE_TEXT_XML = "text/xml";
-    private static final String INITIATED_MESSAGE = " initiated";
     public static final String BEHANDLET_STATUS_OK_UBEHANDLET_0 = "0";
     public static final String BEHANDLET_STATUS_FEILET_INVALID_1 = "-1";
 
@@ -33,19 +32,8 @@ public abstract class SoapServlet extends HttpServlet {
         this.stillingBatchFacadeBean = stillingBatchFacadeBean;
     }
 
-
     @Override
-   // @PostConstruct
-    public void init() throws javax.servlet.ServletException {
-        logger.debug(this.getClass().getName() + INITIATED_MESSAGE);
-
-        if (stillingBatchFacadeBean == null) {
-            setStillingBatchFacadeBean(StillingBatchFacadeBean.getInstance());
-        }
-    }
-
-    @Override
-    @GetMapping("/SixSoap")
+    @PostMapping("/SixSoap")
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BufferedReader br = req.getReader();
         String stillingXml = ConverterUtils.read(br);
@@ -54,9 +42,9 @@ public abstract class SoapServlet extends HttpServlet {
         if (stillingXml.trim().length() == 0) {
             logger.info("stillingxml var tom streng!");
             soapSvar = getResponseMessage(false);
-            //opprettOgProsesserStillingbatch("<xml>foobar</xml>", "Test", true);
         } else {
-            String eksterntBrukerNavn = req.getUserPrincipal().getName();
+            //String eksterntBrukerNavn = req.getUserPrincipal().getName();
+            String eksterntBrukerNavn = "test" + System.currentTimeMillis();
 
             XMLValidatorHelper xmlValidatorHelper = new XMLValidatorHelper();
             boolean xmlIsWellFormed = xmlValidatorHelper.isWellFormed(stillingXml);

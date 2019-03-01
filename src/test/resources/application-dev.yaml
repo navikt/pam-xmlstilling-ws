@@ -3,8 +3,10 @@ xmlstilling.batch.node: TODO
 xmlstilling.batch.cron: 0 0 2 * * SUN
 ldap.url: ldaps://ldapgw.oera-t.local
 ldap.domain:
+ROLE_EKSTERNBRUKER.groups: 0000-GA-XMLStilling-HR-bruker
 spring:
   datasource:
     url: ${AETATNOXMLSTILLINGADMINDS_URL}
     username: ${AETATNOXMLSTILLINGADMINDS_USERNAME}
     password: ${AETATNOXMLSTILLINGADMINDS_PASSWORD}
+

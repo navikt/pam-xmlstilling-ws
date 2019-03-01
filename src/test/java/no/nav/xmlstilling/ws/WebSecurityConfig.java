@@ -1,5 +1,7 @@
-package no.nav.xmlstilling.ws.web.security;
+package no.nav.xmlstilling.ws;
 
+import no.nav.xmlstilling.ws.web.security.AuthoritiesMapper;
+import no.nav.xmlstilling.ws.web.security.NAVLdapUserDetailsMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,14 +19,8 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-@Profile("!dev")
+@Profile("dev")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Value("${ldap.domain}")
-    private String ldapDomain;
-
-    @Value("${ldap.url}")
-    private String ldapUrl;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -33,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/isAlive").permitAll()
                 .antMatchers("/internal/**").permitAll()
-                .antMatchers("/**").hasRole("EKSTERNBRUKER")
+                .antMatchers("/**").hasRole("ROLLE_A")
                 .anyRequest().authenticated()
                 .and().httpBasic()
                 ;
@@ -42,22 +38,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder builder) throws Exception {
         builder
-                .authenticationProvider(activeDirectoryLdapAuthenticationProvider())
-                .userDetailsService(userDetailsService());
+                .inMemoryAuthentication()
+                .withUser("brukerA").password("{noop}pwdA").roles("ROLLE_A").and()
+                .withUser("brukerB").password("{noop}pwdB").roles("ROLLE_B");
+
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager() {
-        return new ProviderManager(Arrays.asList(activeDirectoryLdapAuthenticationProvider()));
-    }
-
-    @Bean
-    public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
-        ActiveDirectoryLdapAuthenticationProvider provider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomain, ldapUrl);
-        provider.setAuthoritiesMapper(new AuthoritiesMapper());
-        provider.setUserDetailsContextMapper(new NAVLdapUserDetailsMapper());
-        provider.setUseAuthenticationRequestCredentials(true);
-        provider.setConvertSubErrorCodesToExceptions(true);
-        return provider;
-    }
 }

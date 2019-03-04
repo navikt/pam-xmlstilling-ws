@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="Windows-1252" ?> 
+<SOAP-ENV:Envelope xmlns:m="http://www.nav.no/nav_stilling_reg.wsdl" xmlns:m0="http://www.nav.no/nav_stilling_typer.xsd"    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:m2="http://ns.hr-xml.org/2007-04-15" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Body>
+    <m:LeggInnStillinger>
+      <StillingListe>
+        <m0:PositionOpening>
+          <PositionPostings>
+            <PositionPosting>
+              <Id>
+                <IdValue>261612530</IdValue> 
+              </Id>
+            </PositionPosting>
+          </PositionPostings>
+          <PositionSupplier>
+            <SupplierId>
+              <IdValue>Webcruiter</IdValue> 
+            </SupplierId>
+            <EntityName>WebCruiter AS</EntityName> 
+            <ContactMethod>
+              <Telephone>
+                <FormattedNumber>92 28 97 97</FormattedNumber> 
+              </Telephone>
+              <Fax>
+                <FormattedNumber>22301151</FormattedNumber> 
+              </Fax>
+            </ContactMethod>
+            <Role /> 
+          </PositionSupplier>
+          <PositionProfile>
+            <ProfileName>Åpen søknad</ProfileName> 
+            <PositionDateInfo>
+              <StartDate /> 
+              <ExpectedEndDate /> 
+              <MaximumStartDate>2008-02-01</MaximumStartDate> 
+              <MaximumEndDate>2008-02-01</MaximumEndDate> 
+              <StartAsSoonAsPossible>false</StartAsSoonAsPossible> 
+            </PositionDateInfo>
+            <Organization>
+              WebCruiter utvikler språkuavhengige nettbaserte rekrutteringsløsninger som forenkler, kvalitetssikrer og effektiviserer våre kunders hverdag.
+            </Organization> 
+            <PositionDetail>
+              <Company /> 
+              <PhysicalLocation>
+                <Name>Sverige, Danmark, Norge</Name> 
+                <PostalAddress>
+                  <PostalCode>1081</PostalCode> 
+                  <Recipient>
+                    <PersonName>
+                      <FormattedName>Tor Westerheim</FormattedName> 
+                    </PersonName>
+                  </Recipient>
+                  <DeliveryAddress>
+                    <AddressLine /> 
+                  </DeliveryAddress>
+                </PostalAddress>
+              </PhysicalLocation>
+              <JobCategory>
+                <CategoryDescription /> 
+              </JobCategory>
+              <PositionTitle /> 
+              <PositionClassification /> 
+              <PositionSchedule percentage="100" /> 
+              <Competency name="" required="" /> 
+              <JobLevelInfo>
+                <JobPlan /> 
+                <JobGrade /> 
+              </JobLevelInfo>
+            </PositionDetail>
+            <FormattedPositionDescription>
+              <Value>Org. nr: -<br/>Stillingsident: 261612530<br/>Presentasjon av stillingen:<br/>WebCruiter opplever en raskt voksende oppdragsmengde, og vi er stadig på utkikk etter hyggelige, dyktige og profesjonelle kolleger. <br/> <br/>Dersom du har erfaring fra områder som prosjektleveranser av løsninger, løsningssalg eller rådgivning mot toppledere eller personalfunksjon og ledelse i Norge eller i andre land, er vi interessert i å høre fra deg. <br/> <br/><b>Kvalifikasjoner</b> <br/>Vi er like opptatt av personlige egenskaper og evner som av tidligere erfaring. Vi søker deg med den rette holdningen - holdningen som kreves for å lykkes i et marked under rask vekst, endring og konsolidering. <br/>Vi yter mer enn kundene forventer av oss! <br/> <br/>WebCruiters kjerneverdier er: <br/> <br/><u>Engasjement</u>: <br/>Være serviceinnstilte, Vise interesse, Ha innlevelse og Levere mer enn forventet. <br/> <br/><u>Merverdi:</u> <br/>Dele faglig kompetanse, Være informative, Tenke helhet, Gi råd og veiledning og Være fremtidsrettede. <br/> <br/><u>Trygghet:</u> <br/>Ha høy fagkunnskap, Opptre profesjonelt, Være forutsigbare og solide, Være tilgjengelige og levere kvalitet. <br/> <br/>Registrer din CV og beskriv i søknadsteksten hvorfor nettopp du vil være en viktig bidragsyter i WebCruiter i årene som kommer.<br/><br/>Søknadsinformasjon: <br/>Referansenummer / Søknad merkes: 20072008<br/>Lenke til søknadsskjema:<br/><A href="http://localhost/WcMain30/CvJobRespond1.aspx?respond_oppdragsnr=261612530&amp;oppdragsnr=261612530&amp;company_id=300000&amp;link_source_id=17">http://localhost/WcMain30/CvJobRespond1.aspx?respond_oppdragsnr=261612530&amp;oppdragsnr=261612530&amp;company_id=300000&amp;link_source_id=17</A><br/></Value> 
+            </FormattedPositionDescription>
+            <HowToApply>
+              <PersonName>Tor Westerheim</PersonName> 
+              <ApplicationMethod>
+                <Telephone>
+                  <FormattedNumber>92 28 97 97</FormattedNumber> 
+                </Telephone>
+                <InternetEmailAddress>tor.westerheim@webcruiter.no</InternetEmailAddress> 
+                <InternetWebAddress>http://www.webcruiter.no</InternetWebAddress> 
+                <PostalAddress>
+                  <PostalCode /> 
+                  <Recipient>
+                    <PersonName/> 
+                  </Recipient>
+                  <DeliveryAddress>
+                    <AddressLine /> 
+                    <StreetName /> 
+                    <PostOfficeBox /> 
+                  </DeliveryAddress>
+                </PostalAddress>
+              </ApplicationMethod>
+            </HowToApply>
+          </PositionProfile>
+          <NumberToFill>1</NumberToFill> 
+        </m0:PositionOpening>
+      </StillingListe>
+    </m:LeggInnStillinger>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+

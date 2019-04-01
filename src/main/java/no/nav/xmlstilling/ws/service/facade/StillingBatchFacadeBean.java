@@ -1,28 +1,15 @@
 package no.nav.xmlstilling.ws.service.facade;
 
-import aetat.arch.vo.ValueObject;
 import no.nav.xmlstilling.ws.common.vo.StillingBatchVO;
 import no.nav.xmlstilling.ws.dao.StillingBatchDaoJpa;
 import no.nav.xmlstilling.ws.dao.ValueObjectConverter;
 import no.nav.xmlstilling.ws.entity.StillingBatchEntity;
-import no.nav.xmlstilling.ws.exception.SystemException;
 import no.nav.xmlstilling.ws.spring.SpringContextProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
-
-/**
- * StillingBatchFacadeBean
- *
- * @author VHA
- * @version 1.0
- */
 @Component
 @Transactional
 public class StillingBatchFacadeBean {
@@ -49,42 +36,4 @@ public class StillingBatchFacadeBean {
         return ValueObjectConverter.getStillingBatchValueObject(stillingBatchEntity);
     }
 
-    public void endreStillingBatch(StillingBatchVO stillingBatchVO) {
-        if (stillingBatchVO == null) {
-            throw new IllegalArgumentException(this.getClass().getName() + ".endreStillingBatch: stillingBatchVO er lik null");
-        }
-        StillingBatchEntity stillingBatchEntity = stillingBatchDaoJpa.findById(stillingBatchVO.getStillingBatchId());
-
-        if (stillingBatchEntity != null) {
-            stillingBatchDaoJpa.update(ValueObjectConverter.getStillingBatchEntityForValueObject(stillingBatchVO));
-        } else {
-            throw new SystemException(this.getClass().getName() + ".endreStillingBatch: FinderException ");
-        }
-    }
-
-    public Collection<ValueObject> findByEksternbrukerref(String eksternBrukerRef) {
-
-        if (eksternBrukerRef == null) {
-            throw new RuntimeException("Ukjent bruker");
-        }
-
-        Collection<StillingBatchEntity> stillingBatchEntities = stillingBatchDaoJpa.findByEksternbrukerref(eksternBrukerRef);
-        return hentUtValueObject(stillingBatchEntities);
-    }
-
-    private Collection<ValueObject> hentUtValueObject(Collection<StillingBatchEntity> stillingBatchEntities) {
-        if (stillingBatchEntities != null && !stillingBatchEntities.isEmpty()) {
-            List<ValueObject> result = new ArrayList<ValueObject>(stillingBatchEntities.size());
-            for (StillingBatchEntity stillingBatchEntity : stillingBatchEntities) {
-                result.add(ValueObjectConverter.getStillingBatchValueObject(stillingBatchEntity));
-            }
-            return result;
-        }
-        return null;
-    }
-
-    public StillingBatchVO findByStillingbatchid(BigDecimal stillingBatchId) {
-        StillingBatchEntity stillingBatchEntity = stillingBatchDaoJpa.findByStillingbatchid(stillingBatchId);
-        return ValueObjectConverter.getStillingBatchValueObject(stillingBatchEntity);
-    }
 }

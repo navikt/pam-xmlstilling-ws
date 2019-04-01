@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>no.nav.sbl.xmlstilling</groupId>
-    <artifactId>xmlstilling-ws</artifactId>
+    <artifactId>pam-xmlstilling-ws</artifactId>
     <version>1.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -94,9 +94,28 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <folders>src/test/resources</folders>
+                    <useTestClasspath>true</useTestClasspath>
+                    <!-- fjern denne hvis du vil kjøre test oppsett med H2 som database -->
+                    <profiles>dev</profiles>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
-	
+
 	<dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

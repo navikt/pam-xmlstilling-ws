@@ -1,24 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="MAIN_APPLICATION" value="xmlstilling-ws" />
-
-
-
-    <appender name="stdout_json" class="ch.qos.logback.core.ConsoleAppender">
+    <appender class="ch.qos.logback.core.ConsoleAppender" name="CONSOLE">
         <encoder>
-            <pattern>%d [%-5p] [%t] %m -- %c%n - %throwable{short}%n</pattern>
+            <pattern>%date [%-5level] [%thread] %logger{5} - %m%n</pattern>
         </encoder>
     </appender>
 
-
-
+    <logger name="no.nav" level="DEBUG"/>
     <root level="INFO">
-        <appender-ref ref="stdout_json"/>
+        <appender-ref ref="CONSOLE"/>
     </root>
-
-    <logger name="org" level="WARN" />
-    <logger name="com" level="WARN" />
-    <logger name="aetat" level="INFO" />
-
-
 </configuration>

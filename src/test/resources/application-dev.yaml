@@ -1,3 +1,5 @@
+server:
+  port: 9022
 xmlstilling.batch.mndTilbake: 6
 xmlstilling.batch.node: TODO
 xmlstilling.batch.cron: 0 0 2 * * SUN

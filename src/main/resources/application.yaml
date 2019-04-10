@@ -8,6 +8,6 @@ ldap.domain:
 ROLE_EKSTERNBRUKER.groups: 0000-GA-XMLStilling-HR-bruker
 spring:
   datasource:
-    url: ${AETATNOXMLSTILLINGADMINDS_URL:jdbc:oracle:thin:@d32dbfl003.oera-t.local:1521/sblarb_t1}
-    username: ${AETATNOXMLSTILLINGADMINDS_USERNAME:six_komp}
-    password: ${AETATNOXMLSTILLINGADMINDS_PASSWORD:<CHANGE_ME>}
+    url: ${XMLSTILLING_DB_URL:jdbc:oracle:thin:@d32dbfl003.oera-t.local:1521/sblarb_t1}
+    username: ${XMLSTILLING_DB_USERNAME:six_komp}
+    password: ${XMLSTILLING_DB_PASSWORD:<CHANGE_ME>}

@@ -33,8 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/isAlive").permitAll()
                 .antMatchers("/internal/**").permitAll()
-                .antMatchers("/SixSoap").permitAll()
-                //.antMatchers("/**").hasRole("EKSTERNBRUKER")
+                .antMatchers("/**").hasRole("EKSTERNBRUKER")
                 .anyRequest().authenticated()
                 .and().httpBasic()
                 ;

@@ -27,8 +27,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${ldap.domain}")
     private String ldapDomain;
 
-    //@Value("${ldap.url}")
-    private String ldapUrl = "ldaps://ldapgw.foobar.local";
+    @Value("${ldap.url}")
+    private String ldapUrl;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -43,11 +43,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 ;
     }
 
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder builder) throws Exception {
+//        builder
+//                .authenticationProvider(activeDirectoryLdapAuthenticationProvider())
+//                .userDetailsService(userDetailsService());
+//    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder builder) throws Exception {
         builder
-                .authenticationProvider(activeDirectoryLdapAuthenticationProvider())
-                .userDetailsService(userDetailsService());
+                .inMemoryAuthentication()
+                .withUser("brukerA").password("{noop}pwdA").roles("ROLLE_A").and()
+                .withUser("brukerB").password("{noop}pwdB").roles("ROLLE_B");
+
     }
 
     @Bean
@@ -57,7 +66,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
-        logger.warn("Initializing ldap with ldapUrl=" + ldapUrl);
         ActiveDirectoryLdapAuthenticationProvider provider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomain, ldapUrl);
         provider.setAuthoritiesMapper(new AuthoritiesMapper());
         provider.setUserDetailsContextMapper(new NAVLdapUserDetailsMapper());

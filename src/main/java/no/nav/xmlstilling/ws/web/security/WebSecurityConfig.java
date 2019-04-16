@@ -61,10 +61,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-//    @Bean
-//    public AuthenticationManager authenticationManager() {
-//        return new ProviderManager(Arrays.asList(activeDirectoryLdapAuthenticationProvider()));
-//    }
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        return new ProviderManager(Arrays.asList(activeDirectoryLdapAuthenticationProvider()));
+    }
 
     @Bean
     public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {

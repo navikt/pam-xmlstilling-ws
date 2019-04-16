@@ -32,17 +32,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/isAlive").permitAll()
-                //.antMatchers("/internal/**").permitAll()
-                .antMatchers("/internal/**").hasRole("ROLLE_A")
-                //.antMatchers("/**").hasRole("EKSTERNBRUKER")
-                .antMatchers("/**").hasRole("ROLLE_A")
-                .anyRequest().authenticated()
-                .and().httpBasic()
-                ;
+        http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
+
+//        http
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/isAlive").permitAll()
+//                //.antMatchers("/internal/**").permitAll()
+//                .antMatchers("/internal/**").hasRole("ROLLE_A")
+//                //.antMatchers("/**").hasRole("EKSTERNBRUKER")
+//                .antMatchers("/**").hasRole("ROLLE_A")
+//                .anyRequest().authenticated()
+//                .and().httpBasic()
+//                ;
     }
 
 //    @Override
@@ -53,26 +55,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder builder) throws Exception {
-        builder
-                .inMemoryAuthentication()
-                .withUser("brukerA").password("{noop}pwdA").roles("ROLLE_A").and()
-                .withUser("brukerB").password("{noop}pwdB").roles("ROLLE_B");
-
+    protected void configure(AuthenticationManagerBuilder authManagerBuilder) throws Exception {
+        authManagerBuilder.authenticationProvider(activeDirectoryLdapAuthenticationProvider()).userDetailsService(userDetailsService());
     }
+
+//    @Bean
+//    public AuthenticationManager authenticationManager() {
+//        return new ProviderManager(Arrays.asList(activeDirectoryLdapAuthenticationProvider()));
+//    }
+//
+//    @Bean
+//    public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
+//        ActiveDirectoryLdapAuthenticationProvider provider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomain, ldapUrl);
+//        provider.setAuthoritiesMapper(new AuthoritiesMapper());
+//        provider.setUserDetailsContextMapper(new NAVLdapUserDetailsMapper());
+//        provider.setUseAuthenticationRequestCredentials(true);
+//        provider.setConvertSubErrorCodesToExceptions(true);
+//        return provider;
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager() {
         return new ProviderManager(Arrays.asList(activeDirectoryLdapAuthenticationProvider()));
     }
-
     @Bean
     public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
         ActiveDirectoryLdapAuthenticationProvider provider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomain, ldapUrl);
-        provider.setAuthoritiesMapper(new AuthoritiesMapper());
-        provider.setUserDetailsContextMapper(new NAVLdapUserDetailsMapper());
-        provider.setUseAuthenticationRequestCredentials(true);
         provider.setConvertSubErrorCodesToExceptions(true);
+        provider.setUseAuthenticationRequestCredentials(true);
+
         return provider;
     }
 }

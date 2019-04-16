@@ -1,6 +1,7 @@
 server:
   port: 9022
-ldap.url: ${LDAP_URL}
+#ldap.url: ${LDAP_URL}
+ldap.url: ldaps://ldapgw.oera-foo.local
 ldap.domain:
 ROLE_EKSTERNBRUKER.groups: 0000-GA-XMLStilling-HR-bruker
 spring:

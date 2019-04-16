@@ -65,14 +65,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    public AuthenticationManager authenticationManager() {
 //        return new ProviderManager(Arrays.asList(activeDirectoryLdapAuthenticationProvider()));
 //    }
-//
-//    @Bean
-//    public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
-//        ActiveDirectoryLdapAuthenticationProvider provider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomain, ldapUrl);
-//        provider.setAuthoritiesMapper(new AuthoritiesMapper());
-//        provider.setUserDetailsContextMapper(new NAVLdapUserDetailsMapper());
-//        provider.setUseAuthenticationRequestCredentials(true);
-//        provider.setConvertSubErrorCodesToExceptions(true);
-//        return provider;
-//    }
+
+    @Bean
+    public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
+        ActiveDirectoryLdapAuthenticationProvider provider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomain, ldapUrl);
+        provider.setAuthoritiesMapper(new AuthoritiesMapper());
+        provider.setUserDetailsContextMapper(new NAVLdapUserDetailsMapper());
+        provider.setUseAuthenticationRequestCredentials(true);
+        provider.setConvertSubErrorCodesToExceptions(true);
+        return provider;
+    }
 }

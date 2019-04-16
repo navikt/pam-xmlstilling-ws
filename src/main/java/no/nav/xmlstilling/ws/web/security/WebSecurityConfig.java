@@ -1,5 +1,7 @@
 package no.nav.xmlstilling.ws.web.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +21,8 @@ import java.util.Arrays;
 @EnableWebSecurity
 @Profile("!dev")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private static transient Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
 
     @Value("${ldap.domain}")
     private String ldapDomain;
@@ -53,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
+        logger.warn("Initializing ldap with ldapUrl=" + ldapUrl);
         ActiveDirectoryLdapAuthenticationProvider provider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomain, ldapUrl);
         provider.setAuthoritiesMapper(new AuthoritiesMapper());
         provider.setUserDetailsContextMapper(new NAVLdapUserDetailsMapper());

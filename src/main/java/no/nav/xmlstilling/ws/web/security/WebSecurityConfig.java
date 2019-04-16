@@ -27,8 +27,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${ldap.domain}")
     private String ldapDomain;
 
-    @Value("${ldap.url}")
-    private String ldapUrl;
+    //@Value("${ldap.url}")
+    private String ldapUrl = "ldaps://ldapgw.foobar.local";
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

@@ -22,9 +22,15 @@ public class AuthoritiesMapper implements GrantedAuthoritiesMapper {
         for (ApplicationRole applicationRole : applicationRoles) {
             // Get a comma separated list of LDAP group names that have the current role from the runtime container
             String groupString = System.getProperty(applicationRole.name() + ".groups");
-            log.debug("Looking up ldap groups for role through property " + applicationRole.name() + ".groups, found: " + groupString);
+            log.debug("1. Looking up ldap groups for role through property " + applicationRole.name() + ".groups, found: " + groupString);
             String groupString2 = System.getenv(applicationRole.name() + ".groups");
-            log.debug("Looking up ldap groups for role through property " + applicationRole.name() + ".groups, found: " + groupString2);
+            log.debug("2. Looking up ldap groups for role through property " + applicationRole.name() + ".groups, found: " + groupString2);
+
+            String groupString3 = System.getProperty(applicationRole.name() + "_groups");
+            log.debug("3. Looking up ldap groups for role through property " + applicationRole.name() + "_groups, found: " + groupString3);
+            String groupString4 = System.getenv(applicationRole.name() + "_groups");
+            log.debug("4. Looking up ldap groups for role through property " + applicationRole.name() + "_groups, found: " + groupString4);
+
             if (groupString != null) {
                 log.debug(String.format("Application role %s is mapped to the following LDAP groups %s", applicationRole.name(), groupString));
                 addGroupRoleMapping(groupString, applicationRole);

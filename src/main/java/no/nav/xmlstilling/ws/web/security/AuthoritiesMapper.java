@@ -22,14 +22,11 @@ public class AuthoritiesMapper implements GrantedAuthoritiesMapper {
         for (ApplicationRole applicationRole : applicationRoles) {
             // Get a comma separated list of LDAP group names that have the current role from the runtime container
             String groupString = System.getProperty(applicationRole.name() + ".groups");
-            log.debug("1. Looking up ldap groups for role through property " + applicationRole.name() + ".groups, found: " + groupString);
-            String groupString2 = System.getenv(applicationRole.name() + ".groups");
-            log.debug("2. Looking up ldap groups for role through property " + applicationRole.name() + ".groups, found: " + groupString2);
-
-            String groupString3 = System.getProperty(applicationRole.name() + "_groups");
-            log.debug("3. Looking up ldap groups for role through property " + applicationRole.name() + "_groups, found: " + groupString3);
-            String groupString4 = System.getenv(applicationRole.name() + "_groups");
-            log.debug("4. Looking up ldap groups for role through property " + applicationRole.name() + "_groups, found: " + groupString4);
+            log.debug("Looking up ldap groups for role through property " + applicationRole.name() + ".groups, found: " + groupString);
+            log.debug("Looking up ldap groups for role through property ROLE.EKSTERNBRUKER.GROUPS, found: " + System.getenv("ROLE.EKSTERNBRUKER.GROUPS"));
+            log.debug("Looking up ldap groups for role through property ROLE_EKSTERNBRUKER_GROUPS, found: " + System.getenv("ROLE_EKSTERNBRUKER_GROUPS"));
+            log.debug("Looking up ldap groups for role through property ROLE.EKSTERNBRUKER.GROUPS.toLowerCase, found: " + System.getenv("ROLE.EKSTERNBRUKER.GROUPS".toLowerCase()));
+            log.debug("Looking up ldap groups for role through property ROLE_EKSTERNBRUKER_GROUPS.toLowerCase, found: " + System.getenv("ROLE_EKSTERNBRUKER_GROUPS".toLowerCase()));
 
             if (groupString != null) {
                 log.debug(String.format("Application role %s is mapped to the following LDAP groups %s", applicationRole.name(), groupString));

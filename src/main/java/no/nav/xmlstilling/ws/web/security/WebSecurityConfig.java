@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/isAlive").permitAll()
                 //.antMatchers("/internal/**").permitAll()
                 //.antMatchers("/internal/**").hasRole("ROLLE_A")
-                //.antMatchers("/**").hasRole("EKSTERNBRUKER")
+                .antMatchers("/**").hasRole("ROLE_EKSTERNBRUKER")
                 .anyRequest().authenticated()
                 .and().httpBasic()
                 ;

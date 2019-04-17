@@ -40,49 +40,49 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/isAlive").permitAll()
                 //.antMatchers("/internal/**").permitAll()
                 //.antMatchers("/internal/**").hasRole("ROLLE_A")
-                //.antMatchers("/**").hasRole("EKSTERNBRUKER")
+                .antMatchers("/**").hasRole("EKSTERNBRUKER")
                 .anyRequest().authenticated()
                 .and().httpBasic()
                 ;
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder builder) throws Exception {
-//        builder
-//                .authenticationProvider(activeDirectoryLdapAuthenticationProvider())
-//                .userDetailsService(userDetailsService());
-//    }
-
     @Override
-    protected void configure(AuthenticationManagerBuilder authManagerBuilder) throws Exception {
-        authManagerBuilder.authenticationProvider(activeDirectoryLdapAuthenticationProvider()).userDetailsService(userDetailsService());
+    protected void configure(AuthenticationManagerBuilder builder) throws Exception {
+        builder
+                .authenticationProvider(activeDirectoryLdapAuthenticationProvider())
+                .userDetailsService(userDetailsService());
     }
+
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder authManagerBuilder) throws Exception {
+//        authManagerBuilder.authenticationProvider(activeDirectoryLdapAuthenticationProvider()).userDetailsService(userDetailsService());
+//    }
 
 //    @Bean
 //    public AuthenticationManager authenticationManager() {
 //        return new ProviderManager(Arrays.asList(activeDirectoryLdapAuthenticationProvider()));
 //    }
 //
-//    @Bean
-//    public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
-//        ActiveDirectoryLdapAuthenticationProvider provider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomain, ldapUrl);
-//        provider.setAuthoritiesMapper(new AuthoritiesMapper());
-//        provider.setUserDetailsContextMapper(new NAVLdapUserDetailsMapper());
-//        provider.setUseAuthenticationRequestCredentials(true);
-//        provider.setConvertSubErrorCodesToExceptions(true);
-//        return provider;
-//    }
+    @Bean
+    public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
+        ActiveDirectoryLdapAuthenticationProvider provider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomain, ldapUrl);
+        provider.setAuthoritiesMapper(new AuthoritiesMapper());
+        provider.setUserDetailsContextMapper(new NAVLdapUserDetailsMapper());
+        provider.setUseAuthenticationRequestCredentials(true);
+        provider.setConvertSubErrorCodesToExceptions(true);
+        return provider;
+    }
 
     @Bean
     public AuthenticationManager authenticationManager() {
         return new ProviderManager(Arrays.asList(activeDirectoryLdapAuthenticationProvider()));
     }
-    @Bean
-    public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
-        ActiveDirectoryLdapAuthenticationProvider provider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomain, ldapUrl);
-        provider.setConvertSubErrorCodesToExceptions(true);
-        provider.setUseAuthenticationRequestCredentials(true);
-
-        return provider;
-    }
+//    @Bean
+//    public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
+//        ActiveDirectoryLdapAuthenticationProvider provider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomain, ldapUrl);
+//        provider.setConvertSubErrorCodesToExceptions(true);
+//        provider.setUseAuthenticationRequestCredentials(true);
+//
+//        return provider;
+//    }
 }

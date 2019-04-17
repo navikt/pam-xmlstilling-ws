@@ -32,14 +32,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
-
         http
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/isAlive").permitAll()
-                //.antMatchers("/internal/**").permitAll()
-                //.antMatchers("/internal/**").hasRole("ROLLE_A")
+                .antMatchers("/internal/**").permitAll()
                 .antMatchers("/**").hasRole("EKSTERNBRUKER")
                 .anyRequest().authenticated()
                 .and().httpBasic()
@@ -53,16 +50,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailsService());
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder authManagerBuilder) throws Exception {
-//        authManagerBuilder.authenticationProvider(activeDirectoryLdapAuthenticationProvider()).userDetailsService(userDetailsService());
-//    }
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        return new ProviderManager(Arrays.asList(activeDirectoryLdapAuthenticationProvider()));
+    }
 
-//    @Bean
-//    public AuthenticationManager authenticationManager() {
-//        return new ProviderManager(Arrays.asList(activeDirectoryLdapAuthenticationProvider()));
-//    }
-//
     @Bean
     public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
         ActiveDirectoryLdapAuthenticationProvider provider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomain, ldapUrl);
@@ -72,17 +64,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setConvertSubErrorCodesToExceptions(true);
         return provider;
     }
-
-    @Bean
-    public AuthenticationManager authenticationManager() {
-        return new ProviderManager(Arrays.asList(activeDirectoryLdapAuthenticationProvider()));
-    }
-//    @Bean
-//    public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
-//        ActiveDirectoryLdapAuthenticationProvider provider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomain, ldapUrl);
-//        provider.setConvertSubErrorCodesToExceptions(true);
-//        provider.setUseAuthenticationRequestCredentials(true);
-//
-//        return provider;
-//    }
 }

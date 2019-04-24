@@ -21,8 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/internal/**").permitAll()
                 .antMatchers("/**").hasRole("ROLLE_A")
                 .anyRequest().authenticated()
-                .and().httpBasic()
-                ;
+                .and().httpBasic();
     }
 
     @Override

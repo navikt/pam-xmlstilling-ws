@@ -19,10 +19,7 @@ public class StillingBatchTask {
     @Autowired
     private SlettGamleStillingerWorker slettGamleStillingerWorker;
 
-    @Value("${xmlstilling.batch.node}")
-    private String node;
-
-    @Scheduled(cron = "${xmlstilling.batch.cron}")
+    @Scheduled(cron = "0 0 2 * * SUN")
     public void deleteStillingBatch() {
         if (isOnCorrectNode()) {
             logger.debug("Starter batch");
@@ -32,13 +29,8 @@ public class StillingBatchTask {
     }
 
     private boolean isOnCorrectNode() {
-        try {
-            String hostname = InetAddress.getLocalHost().getCanonicalHostName();
-            return hostname != null && hostname.equals(node);
-        } catch (UnknownHostException e) {
-            logger.warn("Unknown host", e);
-            return false;
-        }
+        // todo - reimplement this
+        return true;
     }
 
 }

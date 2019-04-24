@@ -1,14 +1,11 @@
 server:
   port: 9022
-xmlstilling.batch.mndTilbake: 6
-xmlstilling.batch.node: TODO
-xmlstilling.batch.cron: 0 0 2 * * SUN
 ldap.url: ldaps://ldapgw.oera-t.local
 ldap.domain:
 ROLE_EKSTERNBRUKER.groups: 0000-GA-XMLStilling-HR-bruker
 spring:
   datasource:
-    url: ${AETATNOXMLSTILLINGADMINDS_URL}
-    username: ${AETATNOXMLSTILLINGADMINDS_USERNAME}
-    password: ${AETATNOXMLSTILLINGADMINDS_PASSWORD}
+    url: ${XMLSTILLING_DB_URL}
+    username: ${XMLSTILLING_DB_USERNAME}
+    password: ${XMLSTILLING_DB_PASSWORD}
 

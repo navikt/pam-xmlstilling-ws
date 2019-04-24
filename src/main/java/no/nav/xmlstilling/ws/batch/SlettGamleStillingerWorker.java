@@ -16,8 +16,7 @@ import java.util.Date;
 @Component
 public class SlettGamleStillingerWorker {
 
-    @Value("${xmlstilling.batch.mndTilbake}")
-    private int mndTilbake;
+    private int mndTilbake = 6;
 
     @Autowired
     private StillingBatchDaoJpa stillingerDao;

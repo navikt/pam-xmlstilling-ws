@@ -111,6 +111,14 @@
 	<dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
@@ -128,6 +136,14 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -214,25 +230,6 @@
             <version>2.2.2</version>
             <scope>runtime</scope>
         </dependency>
-
-        <!--dependency>
-            <groupId>javax.xml</groupId>
-            <artifactId>jaxrpc-api</artifactId>
-            <version>1.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.xml.soap</groupId>
-            <artifactId>saaj</artifactId>
-            <version>1.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.xml</groupId>
-            <artifactId>jax-qname</artifactId>
-            <version>1.1-NAVSBL</version>
-            <scope>runtime</scope>
-        </dependency-->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
@@ -254,12 +251,6 @@
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.security</groupId>-->
-            <!--<artifactId>spring-security-web</artifactId>-->
-            <!--<scope>runtime</scope>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>

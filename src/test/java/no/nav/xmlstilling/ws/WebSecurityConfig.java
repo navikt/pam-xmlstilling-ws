@@ -18,12 +18,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/isAlive").permitAll()
-                //.antMatchers("/internal/**").permitAll()
-                .antMatchers("/internal/**").hasRole("ROLLE_A")
+                .antMatchers("/internal/**").permitAll()
                 .antMatchers("/**").hasRole("ROLLE_A")
                 .anyRequest().authenticated()
-                .and().httpBasic()
-                ;
+                .and().httpBasic();
     }
 
     @Override

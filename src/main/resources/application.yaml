@@ -1,9 +1,9 @@
 server:
   port: 9022
-ldap.serviceuser.basedn: ou=ServiceAccounts,dc=oera-q,dc=local
+#ldap.serviceuser.basedn: ou=ServiceAccounts,dc=oera-q,dc=local
 ldap.domain: OERA-Q.LOCAL
-ldap.user.basedn: ou=NAV,ou=BusinessUnits,dc=oera-q,dc=local
-ldap.basedn: dc=oera-q,dc=local
+#ldap.user.basedn: ou=NAV,ou=BusinessUnits,dc=oera-q,dc=local
+#ldap.basedn: dc=oera-q,dc=local
 ldap.url: ldaps://ldapgw.oera-q.local
 spring:
   datasource:

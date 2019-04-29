@@ -10,6 +10,7 @@ spring:
 #    username: ${XMLSTILLING_DB_USERNAME}
 #    password: ${XMLSTILLING_DB_PASSWORD}
     continue-on-error: true
+    driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:

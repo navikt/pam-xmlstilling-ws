@@ -26,3 +26,4 @@ spec:
     enabled: true
   ingresses:
   - https://pam-xmlstilling-ws.nais.oera-q.local
+  secrets: true

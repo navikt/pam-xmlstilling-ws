@@ -1,9 +1,8 @@
-package no.nav.xmlstilling.ws.config;
+package no.nav.xmlstilling.ws;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.SneakyThrows;
-import no.nav.vault.jdbc.hikaricp.HikariCPVaultUtil;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
@@ -14,7 +13,7 @@ import org.springframework.context.annotation.Profile;
 import javax.sql.DataSource;
 
 @Configuration
-@Profile("!dev")
+@Profile("dev")
 public class DbConfiguration {
 
     @Value("${database.name}")
@@ -23,27 +22,32 @@ public class DbConfiguration {
     @Value("${database.url}")
     private String databaseUrl;
 
-    @Value("${vault.mount-path}")
-    private String mountPath;
+    @Value("${database.username}")
+    private String username;
+
+    @Value("${database.password}")
+    private String password;
 
     @Bean
     public DataSource userDataSource() {
-        return dataSource("user");
+        return dataSource();
     }
 
     @SneakyThrows
-    private HikariDataSource dataSource(String user) {
+    private HikariDataSource dataSource() {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(databaseUrl);
+        config.setUsername(username);
+        config.setPassword(password);
         config.setMaximumPoolSize(5);
         config.setMinimumIdle(1);
-        return HikariCPVaultUtil.createHikariDataSourceWithVaultIntegration(config, mountPath, String.format("%s-%s", dbName, user));
+        return new  HikariDataSource(config);
     }
 
     @Bean
     public FlywayMigrationStrategy flywayMigrationStrategy() {
         return flyway -> Flyway.configure()
-                .dataSource(dataSource("admin"))
+                .dataSource(dataSource())
                 .initSql(String.format("SET ROLE \"%s-admin\"", dbName))
                 .load()
                 .migrate();

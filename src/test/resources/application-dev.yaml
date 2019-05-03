@@ -3,18 +3,17 @@ server:
 ldap.url: ${LDAP_URL}
 ldap.domain: ${LDAP_DOMAIN}
 ROLE_EKSTERNBRUKER.groups: 0000-GA-XMLStilling-HR-bruker
-db.name: xmlstilling-ws-preprod
+database:
+  name: xmlstilling-ws-preprod
+  url: ${XMLSTILLING_DB_URL}
 spring:
-  datasource:
-    url: ${XMLSTILLING_DB_URL}
-#    username: ${XMLSTILLING_DB_USERNAME}
-#    password: ${XMLSTILLING_DB_PASSWORD}
-    continue-on-error: true
-    driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
+       session:
+         events:
+           log: false
        temp:
          use_jdbc_metadata_defaults: false
        generate_statistics: true
@@ -32,3 +31,5 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+vault:
+  mount-path: postgresql/preprod-sbs

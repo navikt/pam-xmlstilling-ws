@@ -3,7 +3,17 @@ SOAP-basert WebService for å motta stillinger på hr-xml-format fra eksterne ak
 
 ### Kjøre DevApplication lokalt
 Kopier application-dev.yaml til USER_HOME og gi den nytt navn xmlstilling-ws-dev.yaml.
-Slå opp database-properties i fasit og oppdater filen med dette.
+
+Endre databaseproperties, ved å slå de opp i vault. URL finnes direkte mens brukernavn
+og passord må genereres. Åpne vault-CLI øverst til høyre i menylinjen. Kjør deretter
+kommando:
+
+`vault read postgresql/preprod-sbs/creds/xmlstilling-ws-preprod-admin`
+
+Kopier inn brukernavn og passord.
+
+**NB:** Brukeren blir etter noe tid ugyldig og da må hele prosessen med kommando og kopiering
+kjøres på nytt.
 
 Velg "Edit configurations" for DevApplication
 Legg til i "Program arguments": --spring.config.location=<USER_HOME>\xmlstilling-ws-dev.yaml

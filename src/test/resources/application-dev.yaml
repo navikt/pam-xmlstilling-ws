@@ -1,11 +1,10 @@
 server:
   port: 9022
-ldap.url: ${LDAP_URL}
-ldap.domain: ${LDAP_DOMAIN}
-ROLE_EKSTERNBRUKER.groups: 0000-GA-XMLStilling-HR-bruker
 database:
   name: xmlstilling-ws-preprod
-  url: ${XMLSTILLING_DB_URL}
+  url: <CHANGE-ME>
+  username: <CHANGE-ME>
+  password: <CHANGE-ME>
 spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -31,5 +30,3 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
-vault:
-  mount-path: postgresql/preprod-sbs

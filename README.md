@@ -2,14 +2,37 @@
 SOAP-basert WebService for å motta stillinger på hr-xml-format fra eksterne aktører 
 
 ### Kjøre DevApplication lokalt
-Kopier application-dev.yaml til USER_HOME og gi den nytt navn xmlstilling-ws-dev.yaml.
-Slå opp database-properties i fasit og oppdater filen med dette.
+Kopier application-dev.yaml til USER_HOME.
 
-Velg "Edit configurations" for DevApplication
-Legg til i "Program arguments": --spring.config.location=<USER_HOME>\xmlstilling-ws-dev.yaml
+Åpne filen, og editer database-properties avhengig av om du ønsker å kjøre mot postgres i preprod eller lokal H2-database.
 
-### Teste tjeneste via SOAP-UI
-Oppsett i SOAP-UI
+##### Alternativ 1 - postgresql
+
+Kommenter inn properties for postgresql. For å sette brukernavn og passord, logg inn på https://vault.adeo.no og åpne
+vault-CLI øverst til høyre i menylinjen. Kjør deretter kommando:
+
+`vault read postgresql/preprod-sbs/creds/xmlstilling-ws-preprod-admin`
+
+Kopier inn brukernavn og passord.
+
+**NB:** Brukeren blir etter noe tid ugyldig og da må hele prosessen med kommando og kopiering
+kjøres på nytt.
+
+##### Alternativ 2 - H2
+
+Kommenter inn properties for postgresql. Velg url avhengig av om du ønsker å kjøre med en in-mem- eller lokalt oppsatt instans.
+
+##### Start app
+* Velg "Edit configurations" for DevApplication
+* Legg til i "Program arguments":
+
+`--spring.config.location=<USER_HOME>\xmlstilling-ws-dev.yaml`
+
+### Teste WS
+Tjenesten kan testes på to måter, via SOAP-UI eller via curl. 
+ 
+##### Test med SOAP-UI
+* Installer SOAP-UI
 * Velg "New SOAP Project"
 * Gi prosjektet et navn og velg src/test/xmlstilling.wsdl som "Initial WSDL"
 * Pass på at "Create Requests" er haket av.
@@ -20,7 +43,12 @@ Oppsett i SOAP-UI
 * Legg inn brukernavn og passord. Liste over brukere og passord ligger i excelfil det lenkes til herfra: https://confluence.adeo.no/display/navnofor/xmlstilling+-+Utviklingsdokumentasjon (passordbeskyttet). For test mot localhost, bruk brukerA/pwdA.
 * Kjør request og sjekk respons og evt database (via sql developer eller xmlstilling-admin).
 
+##### Test med curl
+`curl -u brukerA:pwdA -XPOST 'http://localhost:9022/SixSoap' -H 'Content-type: application/xml' --data-binary @src/test/resources/xml/example-globesoft.xml`
 
+Det ligger flere testfiler under src/test/resources/xml/.
+
+##### Respons fra tjenesten
 Ok respons fra /xmlstilling/SixSoap vil se slik ut:
 
 `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">

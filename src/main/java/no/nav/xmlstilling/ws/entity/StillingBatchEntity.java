@@ -12,7 +12,7 @@ public class StillingBatchEntity {
     @Id
     @Column(name = "STILLING_BATCH_ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stillingbatchseq")
-    @SequenceGenerator(name = "stillingbatchseq", sequenceName = "STILLING_BATCH_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "stillingbatchseq", sequenceName = "hibernate_sequence", allocationSize = 1)
     private BigDecimal stillingBatchId;
 
     @Column(name = "EKSTERN_BRUKER_REF")

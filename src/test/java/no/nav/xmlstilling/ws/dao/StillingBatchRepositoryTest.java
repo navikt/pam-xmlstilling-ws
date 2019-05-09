@@ -1,5 +1,6 @@
 package no.nav.xmlstilling.ws.dao;
 
+import no.nav.xmlstilling.ws.DevApplication;
 import no.nav.xmlstilling.ws.entity.StillingBatchEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Timestamp;
@@ -17,7 +19,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @ComponentScan
-public class StillingBatchRepositoryTests {
+@ContextConfiguration(classes = DevApplication.class)
+public class StillingBatchRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;

@@ -28,7 +28,7 @@ public class StatusController {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(sixDb);
         boolean ok = true;
         try {
-            jdbcTemplate.execute("Select 1 from dual");
+            jdbcTemplate.execute("select now()");
         } catch (Exception e) {
             ok = false;
         }

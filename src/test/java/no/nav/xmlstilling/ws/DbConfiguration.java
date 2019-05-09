@@ -41,14 +41,14 @@ public class DbConfiguration {
         config.setPassword(password);
         config.setMaximumPoolSize(5);
         config.setMinimumIdle(1);
-        return new  HikariDataSource(config);
+        return new HikariDataSource(config);
     }
 
     @Bean
     public FlywayMigrationStrategy flywayMigrationStrategy() {
         return flyway -> Flyway.configure()
                 .dataSource(dataSource())
-                .initSql(String.format("SET ROLE \"%s-admin\"", dbName))
+                .initSql(databaseUrl.contains("postgresql") ? String.format("SET ROLE \"%s-admin\"", dbName) : "")
                 .load()
                 .migrate();
     }

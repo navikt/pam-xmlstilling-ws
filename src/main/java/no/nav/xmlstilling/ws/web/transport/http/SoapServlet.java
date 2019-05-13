@@ -3,6 +3,7 @@ package no.nav.xmlstilling.ws.web.transport.http;
 import no.nav.xmlstilling.ws.common.util.ConverterUtils;
 import no.nav.xmlstilling.ws.common.util.XMLValidatorHelper;
 import no.nav.xmlstilling.ws.common.vo.StillingBatchVO;
+import no.nav.xmlstilling.ws.service.MetricsService;
 import no.nav.xmlstilling.ws.service.facade.StillingBatchFacadeBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +28,16 @@ public abstract class SoapServlet extends HttpServlet {
     @Autowired
     private StillingBatchFacadeBean stillingBatchFacadeBean;
 
+    @Autowired
+    private MetricsService metricsService;
+
 
     public void setStillingBatchFacadeBean(StillingBatchFacadeBean stillingBatchFacadeBean) {
         this.stillingBatchFacadeBean = stillingBatchFacadeBean;
+    }
+
+    public void setMetricsService(MetricsService metricsService) {
+        this.metricsService = metricsService;
     }
 
     @Override
@@ -38,14 +46,14 @@ public abstract class SoapServlet extends HttpServlet {
         BufferedReader br = req.getReader();
         String stillingXml = ConverterUtils.read(br);
 
-        String soapSvar;
+        SoapServletResponse soapSvar;
+        String eksterntBrukerNavn = req.getUserPrincipal().getName();
+        //String eksterntBrukerNavn = "test" + System.currentTimeMillis();
+
         if (stillingXml.trim().length() == 0) {
             logger.info("stillingxml var tom streng!");
             soapSvar = getResponseMessage(false);
         } else {
-            //String eksterntBrukerNavn = req.getUserPrincipal().getName();
-            String eksterntBrukerNavn = "test" + System.currentTimeMillis();
-
             XMLValidatorHelper xmlValidatorHelper = new XMLValidatorHelper();
             boolean xmlIsWellFormed = xmlValidatorHelper.isWellFormed(stillingXml);
             logger.debug("xml fra bruker: " + eksterntBrukerNavn + " iswellformed: " + xmlIsWellFormed);
@@ -54,19 +62,19 @@ public abstract class SoapServlet extends HttpServlet {
             soapSvar = getResponseMessage(xmlIsWellFormed);
         }
 
+        metricsService.registerFor(eksterntBrukerNavn, soapSvar.isOkResponse());
+
         resp.setContentType(CONTENT_TYPE_TEXT_XML);
         PrintWriter out = resp.getWriter();
-        out.write(soapSvar);
+        out.write(soapSvar.getMessage());
         out.flush();
         out.close();
     }
 
     // Returnerer SoapServletResponse-objektet som gjelder for den aktuelle SoapServlet-versjonen.
-    protected abstract String getResponseMessage(boolean xmlIsWellFormed);
+    protected abstract SoapServletResponse getResponseMessage(boolean xmlIsWellFormed);
 
     private void opprettOgProsesserStillingbatch(String stillingXml, String eksterntBrukerNavn, boolean xmlIsWellFormed) {
-
-        //Oppretter stillingbatchen
         StillingBatchVO stillingBatchVO = new StillingBatchVO();
         stillingBatchVO.setArbeidsgiver(finnInnholdMellomTag(stillingXml));
         stillingBatchVO.setEksternBrukerRef(eksterntBrukerNavn);
@@ -74,13 +82,10 @@ public abstract class SoapServlet extends HttpServlet {
         stillingBatchVO.setMottattDato(new java.sql.Timestamp(System.currentTimeMillis()));
         stillingBatchVO.setBehandletDato(null);
         stillingBatchVO.setBehandletStatus(xmlIsWellFormed ? BEHANDLET_STATUS_OK_UBEHANDLET_0 : BEHANDLET_STATUS_FEILET_INVALID_1);
-
-        // Skriver posten til databasen
-        stillingBatchVO = stillingBatchFacadeBean.insertStillingBatch(stillingBatchVO);
+        stillingBatchFacadeBean.insertStillingBatch(stillingBatchVO);
     }
 
     private String finnInnholdMellomTag(String stillingXml) {
-
         try {
             stillingXml = stillingXml.split("<EntityName>")[1];
             stillingXml = stillingXml.split("</EntityName>")[0];

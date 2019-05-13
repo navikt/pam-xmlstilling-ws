@@ -18,6 +18,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/isAlive").permitAll()
+                .antMatchers("/actuator/prometheus/**").permitAll()
                 .antMatchers("/internal/**").permitAll()
                 .antMatchers("/**").hasRole("ROLLE_A")
                 .anyRequest().authenticated()

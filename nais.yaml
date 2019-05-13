@@ -20,7 +20,7 @@ spec:
     path: /isAlive
   prometheus:
     enabled: true
-    path: /prometheus
+    path: /actuator/prometheus
   webproxy: true
   vault:
     enabled: true

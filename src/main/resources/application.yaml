@@ -26,5 +26,20 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+management:
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: ["prometheus", "metrics"]
+      base-path: /internal/actuator
 vault:
   mount-path: ${VAULT_MOUNT_PATH}

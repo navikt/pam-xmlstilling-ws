@@ -23,7 +23,7 @@ public class MetricsService {
         String[] tags = {"leverandor", leverandor};
 
         meterRegistry.counter(metricNameOk, tags).increment(receivedOk ? 1 : 0);
-        meterRegistry.counter(metricNameOk, tags).increment(receivedOk ? 0 : 1);
+        meterRegistry.counter(metricNameFeil, tags).increment(receivedOk ? 0 : 1);
     }
 
 }

@@ -1,6 +1,7 @@
 package no.nav.xmlstilling.ws.web.transport.http;
 
 import no.nav.xmlstilling.ws.common.vo.StillingBatchVO;
+import no.nav.xmlstilling.ws.service.MetricsService;
 import no.nav.xmlstilling.ws.service.facade.StillingBatchFacadeBean;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +29,7 @@ public class SoapServletTest {
     private HttpServletResponse response;
     private PrintWriter writer;
     private StillingBatchFacadeBean stillingBatchFacadeBean;
+    private MetricsService metricsService;
 
     private String xmlStub = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
             "<soapenv:Envelope " +
@@ -46,6 +48,7 @@ public class SoapServletTest {
         response = mock(HttpServletResponse.class);
         writer = mock(PrintWriter.class);
         stillingBatchFacadeBean = mock(StillingBatchFacadeBean.class);
+        metricsService = mock(MetricsService.class);
 
         when(request.getReader()).thenReturn(new BufferedReader(new StringReader(xmlStub)));
         when(request.getUserPrincipal()).thenReturn(mock(Principal.class));
@@ -53,6 +56,7 @@ public class SoapServletTest {
 
         soapServlet = new SoapServletV2();
         soapServlet.setStillingBatchFacadeBean(stillingBatchFacadeBean);
+        soapServlet.setMetricsService(metricsService);
         soapServlet.init();
     }
 
@@ -81,6 +85,7 @@ public class SoapServletTest {
     public void soapServletV1Respons() throws ServletException, IOException {
         soapServlet = new SoapServletV1();
         soapServlet.setStillingBatchFacadeBean(stillingBatchFacadeBean);
+        soapServlet.setMetricsService(metricsService);
         soapServlet.init();
 
         soapServlet.service(request, response);

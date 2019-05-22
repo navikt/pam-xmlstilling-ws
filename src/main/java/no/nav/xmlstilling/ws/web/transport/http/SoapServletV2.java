@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SoapServletV2 extends SoapServlet {
 
     @Override
-    protected String getResponseMessage(boolean xmlIsWellFormed) {
+    protected SoapServletResponse getResponseMessage(boolean xmlIsWellFormed) {
         return xmlIsWellFormed ? SoapServletResponse.RESPONSE_V2_OK : SoapServletResponse.RESPONSE_V2_ERROR;
     }
 }

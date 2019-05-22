@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.sql.DataSource;
@@ -13,17 +14,18 @@ import java.util.Map;
 
 
 @RestController
+@RequestMapping("/internal")
 public class StatusController {
 
     @Autowired
     private DataSource sixDb;
 
-    @GetMapping(path = "/isAlive")
+    @GetMapping("/isAlive")
     public String isAlive() {
         return "OK";
     }
 
-    @GetMapping("/internal/selftest")
+    @GetMapping("/selftest")
     public ResponseEntity selftest () {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(sixDb);
         boolean ok = true;

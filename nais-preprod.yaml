@@ -14,13 +14,13 @@ spec:
     cpuThresholdPercentage: 50
   liveness:
     initialDelay: 40
-    path: /isAlive
+    path: /internal/isAlive
   readiness:
     initialDelay: 40
-    path: /isAlive
+    path: /internal/isAlive
   prometheus:
     enabled: true
-    path: /prometheus
+    path: /internal/actuator/prometheus
   webproxy: true
   vault:
     enabled: true

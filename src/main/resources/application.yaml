@@ -34,12 +34,10 @@ management:
   endpoint:
     prometheus:
       enabled: true
-    metrics:
-      enabled: true
   endpoints:
     web:
       exposure:
-        include: ["prometheus", "metrics"]
+        include: ["prometheus"]
       base-path: /internal/actuator
 vault:
   mount-path: ${VAULT_MOUNT_PATH}

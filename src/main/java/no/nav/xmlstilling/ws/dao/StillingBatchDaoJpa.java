@@ -22,7 +22,7 @@ public class StillingBatchDaoJpa extends BaseDaoJpa<StillingBatchEntity, BigDeci
 
         // stillingXml er en CLOB som tar lang tid å hente fra db. Derfor henter vi bare 'STILLING-XML' i stedet, siden stillingXML ikke brukes av den koden som kaller findByEksternbrukerref
         String namedQuery =
-                "select new StillingBatchEntity(o.stillingBatchId, o.eksternBrukerRef, 'STILLING-XML', o.mottattDato, o.behandletDato, o.behandletStatus, o.arbeidsgiver) " +
+                "select new StillingBatchEntity(o.stillingBatchId, o.eksternBrukerRef, 'STILLING-XML', o.mottattDato, o.behandletDato, o.behandletStatus, o.arbeidsgiver, o.eksternId) " +
                 "from StillingBatchEntity as o where o.eksternBrukerRef=:eksternBrukerRef order by o.mottattDato desc" ;
         return findByNamedQuery(namedQuery, map);
     }

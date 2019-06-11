@@ -17,4 +17,5 @@ public class StillingBatchVO {
     private Timestamp behandletDato;
     private String behandletStatus;
     private String arbeidsgiver;
+    private String eksternId;
 }

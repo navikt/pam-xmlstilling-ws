@@ -38,6 +38,17 @@ public class SoapServletTest {
             "   xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">" +
             "   <soapenv:Body>" +
             "      <LeggInnStillinger xmlns=\"\">" +
+            "         <StillingListe>" +
+            "            <m0:PositionOpening>" +
+            "               <PositionPostings>" +
+            "                  <PositionPosting>" +
+            "                     <Id>" +
+            "                        <IdValue>1234</IdValue>" +
+            "                     </Id>" +
+            "                  </PositionPosting>" +
+            "               </PositionPostings>" +
+            "            </m0:PositionOpening>" +
+            "         </StillingListe>" +
             "      </LeggInnStillinger>" +
             "   </soapenv:Body>" +
             "</soapenv:Envelope>";
@@ -115,6 +126,7 @@ public class SoapServletTest {
         ArgumentCaptor<StillingBatchVO> argument = ArgumentCaptor.forClass(StillingBatchVO.class);
         verify(stillingBatchFacadeBean).insertStillingBatch(argument.capture());
         assertEquals("0", argument.getValue().getBehandletStatus());
+        assertEquals("1234", argument.getValue().getEksternId());
 
     }
 

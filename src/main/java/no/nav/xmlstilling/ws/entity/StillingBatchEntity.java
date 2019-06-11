@@ -33,8 +33,11 @@ public class StillingBatchEntity {
     @Column(name = "ARBEIDSGIVER")
     private String arbeidsgiver;
 
+    @Column(name = "EKSTERN_ID")
+    private String eksternId;
+
     // Pga feil i Hibernate (Hibernate ORM / HHH-278) må Date brukes i deklarasjonen i stedet for Timestamp, ellers finner den ikke konstruktøren
-    public StillingBatchEntity(BigDecimal stillingBatchId, String eksternBrukerRef, String stillingXml, Date mottattDato, Date behandletDato, String behandletStatus, String arbeidsgiver) {
+    public StillingBatchEntity(BigDecimal stillingBatchId, String eksternBrukerRef, String stillingXml, Date mottattDato, Date behandletDato, String behandletStatus, String arbeidsgiver, String eksternId) {
         this.stillingBatchId = stillingBatchId;
         this.eksternBrukerRef = eksternBrukerRef;
         this.stillingXml = stillingXml;
@@ -42,6 +45,7 @@ public class StillingBatchEntity {
         this.behandletDato = (Timestamp) behandletDato;
         this.behandletStatus = behandletStatus;
         this.arbeidsgiver = arbeidsgiver;
+        this.eksternId = eksternId;
     }
 
     public StillingBatchEntity() { }
@@ -100,5 +104,13 @@ public class StillingBatchEntity {
 
     public void setArbeidsgiver(String arbeidsgiver) {
         this.arbeidsgiver = arbeidsgiver;
+    }
+
+    public String getEksternId() {
+        return eksternId;
+    }
+
+    public void setEksternId(String eksternId) {
+        this.eksternId = eksternId;
     }
 }

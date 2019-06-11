@@ -26,6 +26,7 @@ public class ValueObjectConverter {
             stillingBatchEntity.setBehandletDato(stillingBatchVO.getBehandletDato());
             stillingBatchEntity.setBehandletStatus(checkAndAdjustLength(StillingBatchVO.class.getName(), "behandletStatus", stillingBatchVO.getBehandletStatus(), 3));
             stillingBatchEntity.setArbeidsgiver(stillingBatchVO.getArbeidsgiver());
+            stillingBatchEntity.setEksternId(stillingBatchVO.getEksternId());
         }
 
         return stillingBatchEntity;

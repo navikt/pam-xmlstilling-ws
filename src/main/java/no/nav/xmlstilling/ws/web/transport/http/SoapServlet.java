@@ -9,14 +9,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
 
 public abstract class SoapServlet extends HttpServlet {
     private static final String CONTENT_TYPE_TEXT_XML = "text/xml";
@@ -48,7 +54,6 @@ public abstract class SoapServlet extends HttpServlet {
 
         SoapServletResponse soapSvar;
         String eksterntBrukerNavn = req.getUserPrincipal().getName();
-        //String eksterntBrukerNavn = "test" + System.currentTimeMillis();
 
         if (stillingXml.trim().length() == 0) {
             logger.info("stillingxml var tom streng!");
@@ -76,21 +81,22 @@ public abstract class SoapServlet extends HttpServlet {
 
     private void opprettOgProsesserStillingbatch(String stillingXml, String eksterntBrukerNavn, boolean xmlIsWellFormed) {
         StillingBatchVO stillingBatchVO = new StillingBatchVO();
-        stillingBatchVO.setArbeidsgiver(finnInnholdMellomTag(stillingXml));
+        stillingBatchVO.setArbeidsgiver(parseValue(stillingXml, "//EntityName"));
         stillingBatchVO.setEksternBrukerRef(eksterntBrukerNavn);
         stillingBatchVO.setStillingXml(stillingXml);
         stillingBatchVO.setMottattDato(new java.sql.Timestamp(System.currentTimeMillis()));
         stillingBatchVO.setBehandletDato(null);
         stillingBatchVO.setBehandletStatus(xmlIsWellFormed ? BEHANDLET_STATUS_OK_UBEHANDLET_0 : BEHANDLET_STATUS_FEILET_INVALID_1);
+        stillingBatchVO.setEksternId(parseValue(stillingXml, "//Id/IdValue"));
         stillingBatchFacadeBean.insertStillingBatch(stillingBatchVO);
     }
 
-    private String finnInnholdMellomTag(String stillingXml) {
+    private String parseValue(String xml, String xpath) {
         try {
-            stillingXml = stillingXml.split("<EntityName>")[1];
-            stillingXml = stillingXml.split("</EntityName>")[0];
-            return stillingXml;
-        } catch ( Exception e) {
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(xml)));
+            return (String) XPathFactory.newInstance().newXPath().compile(xpath).evaluate(doc, XPathConstants.STRING);
+        } catch (Exception e) {
+            logger.warn("Feil oppsto ved uthenting av verdi vha xpath " + xpath, e);
             return "";
         }
     }

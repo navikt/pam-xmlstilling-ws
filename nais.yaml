@@ -24,4 +24,3 @@ spec:
   webproxy: true
   vault:
     enabled: true
-  secrets: true

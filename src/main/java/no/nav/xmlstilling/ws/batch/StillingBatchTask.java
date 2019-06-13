@@ -1,17 +1,12 @@
 package no.nav.xmlstilling.ws.batch;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
-@Service
+@Component
 public class StillingBatchTask {
 
     private Logger logger = LoggerFactory.getLogger(StillingBatchTask.class);
@@ -29,7 +24,7 @@ public class StillingBatchTask {
     }
 
     private boolean isOnCorrectNode() {
-        // todo - reimplement this
+        // todo - reimplementer denne dersom nodene går i beina på hverandre. Bør ikke være et problem.
         return true;
     }
 

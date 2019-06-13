@@ -24,3 +24,5 @@ spec:
   webproxy: true
   vault:
     enabled: true
+  ingresses:
+  - https://pam-xmlstilling-ws.nais.oera.no

@@ -1,5 +1,13 @@
 # xmlstilling-ws
-SOAP-basert WebService for å motta stillinger på hr-xml-format fra eksterne aktører 
+SOAP-basert WebService for å motta stillinger på hr-xml-format fra eksterne aktører.
+
+##### Batch-kjøring
+Applikasjonen kjører en skedulert ryddejobb for å slette meldinger (rader) i databasen som er mottatt for mer enn 6 mnd.
+Se klassene som ligger i pakken `no.nav.xmlstilling.ws.batch` for intervaller og slettekriterie for mottatt dato.
+
+##### Metrikker
+Applikasjonen har metrikker for å telle antall meldinger som er mottatt OK `xmlstilling.mottatt.ok` og
+mottatt med feil `xmlstilling.mottatt.feil`. Disse er tagget per leverandør.
 
 ### Kjøre DevApplication lokalt
 Kopier application-dev.yaml til USER_HOME.

@@ -39,7 +39,7 @@ public class DbConfiguration {
         config.setJdbcUrl(databaseUrl);
         config.setUsername(username);
         config.setPassword(password);
-        config.setMaximumPoolSize(5);
+        config.setMaximumPoolSize(2);
         config.setMinimumIdle(1);
         return new HikariDataSource(config);
     }

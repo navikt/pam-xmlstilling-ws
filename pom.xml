@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.4.RELEASE</version>
+        <version>2.1.6.RELEASE</version>
     </parent>
 
     <groupId>no.nav.sbl.xmlstilling</groupId>
@@ -21,7 +21,7 @@
     </description>
 
     <properties>
-        <java.jdk.version>1.8</java.jdk.version>
+        <java.version>12</java.version>
         <junit.version>4.12</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <session.cookie.secure>true</session.cookie.secure>
@@ -39,16 +39,7 @@
     <build>
         <plugins>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
-                <configuration>
-                    <source>${java.jdk.version}</source>
-                    <target>${java.jdk.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18</version>
                 <executions>
                     <execution>
                         <id>default-test</id>
@@ -58,33 +49,6 @@
                         </goals>
                         <configuration>
                             <argLine>-Dfile.encoding=UTF-8</argLine>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.9</version>
-                <executions>
-                    <execution>
-                        <id>analyze</id>
-                        <goals>
-                            <goal>analyze-only</goal>
-                        </goals>
-                        <configuration>
-                            <failOnWarning>false</failOnWarning>
-                            <ignoreNonCompile>true</ignoreNonCompile>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>analyze-pom</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>analyze-dep-mgt</goal>
-                        </goals>
-                        <configuration>
-                            <failBuild>false</failBuild>
-                            <ignoreDirect>false</ignoreDirect>
                         </configuration>
                     </execution>
                 </executions>

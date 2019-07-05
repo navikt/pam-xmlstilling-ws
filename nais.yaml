@@ -25,4 +25,4 @@ spec:
   vault:
     enabled: true
   ingresses:
-  - https://pam-xmlstilling-ws.nais.oera.no
+  - http://pam-xmlstilling-ws

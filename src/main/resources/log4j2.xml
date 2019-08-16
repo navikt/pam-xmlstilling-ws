@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages="com.vlkan.log4j2.logstash.layout">
+    <Appenders>
+        <Console name="console">
+            <LogstashLayout stackTraceEnabled="true"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <logger name="no.nav" level="debug"/>
+        <Root level="info">
+            <AppenderRef ref="console"/>
+        </Root>
+    </Loggers>
+</Configuration>

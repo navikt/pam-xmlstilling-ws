@@ -2,7 +2,6 @@ package no.nav.xmlstilling.ws;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import lombok.SneakyThrows;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
@@ -33,7 +32,6 @@ public class DbConfiguration {
         return dataSource();
     }
 
-    @SneakyThrows
     private HikariDataSource dataSource() {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(databaseUrl);

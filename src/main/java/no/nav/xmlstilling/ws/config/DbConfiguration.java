@@ -2,8 +2,8 @@ package no.nav.xmlstilling.ws.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import lombok.SneakyThrows;
 import no.nav.vault.jdbc.hikaricp.HikariCPVaultUtil;
+import no.nav.vault.jdbc.hikaricp.VaultError;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
@@ -27,12 +27,11 @@ public class DbConfiguration {
     private String mountPath;
 
     @Bean
-    public DataSource userDataSource() {
+    public DataSource userDataSource() throws VaultError {
         return dataSource("user");
     }
 
-    @SneakyThrows
-    private HikariDataSource dataSource(String user) {
+    private HikariDataSource dataSource(String user) throws VaultError {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(databaseUrl);
         config.setMaximumPoolSize(2);
@@ -41,9 +40,10 @@ public class DbConfiguration {
     }
 
     @Bean
-    public FlywayMigrationStrategy flywayMigrationStrategy() {
+    public FlywayMigrationStrategy flywayMigrationStrategy() throws VaultError {
+        DataSource dataSource = dataSource("admin");
         return flyway -> Flyway.configure()
-                .dataSource(dataSource("admin"))
+                .dataSource(dataSource)
                 .initSql(String.format("SET ROLE \"%s-admin\"", dbName))
                 .load()
                 .migrate();

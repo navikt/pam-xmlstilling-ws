@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<xs:schema targetNamespace = "http://www.nav.no/nav_stilling_typer.xsd"
+                  xmlns:xs = "http://www.w3.org/2001/XMLSchema"
+                 xmlns:ns2 = "http://ns.hr-xml.org/2007-04-15"
+        elementFormDefault = "qualified"
+      attributeFormDefault = "unqualified"
+                   version = "1.0">
+
+  <!-- xs:import namespace="http://ns.hr-xml.org/2007-04-15" schemaLocation="http://ns.hr-xml.org/2_5/HR-XML-2_5/StandAlone/PositionOpening.xsd"/ -->
+  <xs:import namespace="http://ns.hr-xml.org/2007-04-15" schemaLocation="hr-xml-2.5/position_opening.xsd"/>
+
+  <xs:complexType name="StillingListeType">
+    <xs:sequence>
+      <xs:element name="PositionOpening" type="ns2:PositionOpeningType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="SvarType">
+    <xs:sequence>
+      <xs:element name="KlientReferanse" type="xs:string"/>
+      <xs:element name="EksekveringOK" type="xs:boolean"/>
+      <xs:element name="Feilkode" type="xs:string" minOccurs="0"/>
+      <xs:element name="Feilmelding" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

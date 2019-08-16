@@ -48,7 +48,7 @@ Tjenesten kan testes på to måter, via SOAP-UI eller via curl.
 * Endre url til miljøet du skal test mot. https://<MILJØ>/xmlstilling/SixSoap (evt. https://<MILJØ>/xmlstilling/v2/SixSoap). For å teste mot localhost, oppgi http://localhost:8080/SixSoap (evt /v2/SixSoap)
 * Lim inn innholdet i src/test/stilling_for_xmlstilling.xml som melding i requesten
 * For Authorization, velg "Basic"
-* Legg inn brukernavn og passord. Liste over brukere og passord ligger i excelfil det lenkes til herfra: https://confluence.adeo.no/display/navnofor/xmlstilling+-+Utviklingsdokumentasjon (passordbeskyttet). For test mot localhost, bruk brukerA/pwdA.
+* Legg inn brukernavn og passord. Liste over brukere og passord til testmiljø ligger i vault, secrets/secret/pam/xml-stilling/. For test mot localhost, bruk brukerA/pwdA.
 * Kjør request og sjekk respons og evt database (via sql developer eller xmlstilling-admin).
 
 ##### Test med curl

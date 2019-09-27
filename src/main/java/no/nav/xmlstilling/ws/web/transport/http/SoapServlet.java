@@ -47,7 +47,7 @@ public abstract class SoapServlet extends HttpServlet {
     }
 
     @Override
-    @PostMapping("/SixSoap")
+    @PostMapping("/xmlstilling/SixSoap")
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BufferedReader br = req.getReader();
         String stillingXml = ConverterUtils.read(br);

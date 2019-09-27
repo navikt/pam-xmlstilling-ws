@@ -26,3 +26,4 @@ spec:
     enabled: true
   ingresses:
   - https://pam-xmlstilling-ws.nais.oera.no
+  - https://tjenester.nav.no

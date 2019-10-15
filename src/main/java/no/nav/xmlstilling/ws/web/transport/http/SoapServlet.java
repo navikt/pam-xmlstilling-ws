@@ -49,6 +49,8 @@ public abstract class SoapServlet extends HttpServlet {
     @Override
     @PostMapping("/xmlstilling/SixSoap")
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+
         BufferedReader br = req.getReader();
         String stillingXml = ConverterUtils.read(br);
 
@@ -56,7 +58,7 @@ public abstract class SoapServlet extends HttpServlet {
         String eksterntBrukerNavn = req.getUserPrincipal().getName();
 
         if (stillingXml.trim().length() == 0) {
-            logger.info("stillingxml fra " + eksterntBrukerNavn + "var tom streng! ");
+            logger.info("stillingxml fra " + eksterntBrukerNavn + " var tom streng! contentType = " + req.getContentType() + ", characterEncoding" + req.getCharacterEncoding());
             soapSvar = getResponseMessage(false);
         } else {
             XMLValidatorHelper xmlValidatorHelper = new XMLValidatorHelper();

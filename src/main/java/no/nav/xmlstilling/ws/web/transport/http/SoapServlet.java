@@ -63,7 +63,7 @@ public abstract class SoapServlet extends HttpServlet {
         } else {
             XMLValidatorHelper xmlValidatorHelper = new XMLValidatorHelper();
             boolean xmlIsWellFormed = xmlValidatorHelper.isWellFormed(stillingXml);
-            logger.debug("xml fra bruker: " + eksterntBrukerNavn + " iswellformed: " + xmlIsWellFormed);
+            logger.debug("xml fra bruker: " + eksterntBrukerNavn + " iswellformed: " + xmlIsWellFormed + " contentType = " + req.getContentType() + ", characterEncoding" + req.getCharacterEncoding());
             logger.debug("Stillingxml: \n" + stillingXml);
             opprettOgProsesserStillingbatch(stillingXml, eksterntBrukerNavn, xmlIsWellFormed);
             soapSvar = getResponseMessage(xmlIsWellFormed);

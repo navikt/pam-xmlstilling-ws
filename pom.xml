@@ -11,7 +11,7 @@
 
     <groupId>no.nav.sbl.xmlstilling</groupId>
     <artifactId>pam-xmlstilling-ws</artifactId>
-    <version>1.12-SNAPSHOT</version>
+    <version>1.13-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>

@@ -56,7 +56,7 @@ public abstract class SoapServlet extends HttpServlet {
         String eksterntBrukerNavn = req.getUserPrincipal().getName();
 
         if (stillingXml.trim().length() == 0) {
-            logger.info("stillingxml var tom streng!");
+            logger.info("stillingxml fra " + eksterntBrukerNavn + "var tom streng! ");
             soapSvar = getResponseMessage(false);
         } else {
             XMLValidatorHelper xmlValidatorHelper = new XMLValidatorHelper();

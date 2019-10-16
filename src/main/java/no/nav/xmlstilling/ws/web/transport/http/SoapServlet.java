@@ -81,7 +81,7 @@ public abstract class SoapServlet extends HttpServlet {
         out.close();
     }
 
-    protected String detekterTegnsett(byte[] tegn) {
+    String detekterTegnsett(byte[] tegn) {
         String detectedCharset = null;
         String defaultCharset = "UTF-8";
         if (tegn != null && tegn.length > 0) {

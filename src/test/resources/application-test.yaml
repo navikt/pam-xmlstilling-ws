@@ -1,0 +1,40 @@
+server:
+  port: 9022
+database:
+  name: xmlstilling-ws-preprod
+  # Postgresql
+#  url: jdbc:postgresql://b27dbvl002.preprod.local/xmlstilling-ws-preprod
+#  username: <CHANGE-ME>
+#  password: <CHANGE-ME>
+  # H2
+  url:  jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+#  url: jdbc:h2:tcp://localhost:1521/pam-xmlstilling-ws;MODE=PostgreSQL
+  username: pam-xmlstilling-ws
+  password: pam-xmlstilling-ws
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+       session:
+         events:
+           log: false
+       temp:
+         use_jdbc_metadata_defaults: false
+       generate_statistics: true
+       cache:
+          use_second_level_cache: true
+          use_query_cache: true
+          region:
+            factory_class:  org.hibernate.cache.ehcache.EhCacheRegionFactory
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: none
+  profiles:
+    active: test
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+vault:
+  mount-path: dummy

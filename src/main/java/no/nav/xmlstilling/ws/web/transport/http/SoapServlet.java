@@ -7,12 +7,10 @@ import no.nav.xmlstilling.ws.service.facade.StillingBatchFacadeBean;
 import org.mozilla.universalchardet.UniversalDetector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,43 +20,37 @@ import javax.xml.xpath.XPathFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
 public abstract class SoapServlet extends HttpServlet {
     private static final String CONTENT_TYPE_TEXT_XML = "text/xml";
-    public static final String BEHANDLET_STATUS_OK_UBEHANDLET_0 = "0";
-    public static final String BEHANDLET_STATUS_FEILET_INVALID_1 = "-1";
+    private static final String BEHANDLET_STATUS_OK_UBEHANDLET_0 = "0";
+    private static final String BEHANDLET_STATUS_FEILET_INVALID_1 = "-1";
 
     private static transient Logger logger = LoggerFactory.getLogger(SoapServlet.class);
 
-    @Autowired
-    private StillingBatchFacadeBean stillingBatchFacadeBean;
+    private final StillingBatchFacadeBean stillingBatchFacadeBean;
 
-    @Autowired
-    private MetricsService metricsService;
+    private final MetricsService metricsService;
 
+    private final ContentParsers contentParsers;
 
-    public void setStillingBatchFacadeBean(StillingBatchFacadeBean stillingBatchFacadeBean) {
+    public SoapServlet(StillingBatchFacadeBean stillingBatchFacadeBean, MetricsService metricsService) {
+
         this.stillingBatchFacadeBean = stillingBatchFacadeBean;
-    }
-
-    public void setMetricsService(MetricsService metricsService) {
         this.metricsService = metricsService;
+        this.contentParsers = new ContentParsers();
     }
 
     @Override
     @PostMapping("/xmlstilling/SixSoap")
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         SoapServletResponse soapSvar;
         String eksterntBrukerNavn = req.getUserPrincipal().getName();
 
         byte[] soapRequestBytes = req.getInputStream().readAllBytes();
         detekterTegnsett(soapRequestBytes);
-        String stillingXml = parseStrategy(eksterntBrukerNavn).parse(soapRequestBytes);
+        String stillingXml = contentParsers.forCompany(eksterntBrukerNavn).parse(soapRequestBytes);
 
         if (stillingXml.trim().length() == 0) {
             logger.info("stillingxml fra " + eksterntBrukerNavn + " var tom streng! contentType = " + req.getContentType() + ", characterEncoding " + req.getCharacterEncoding());
@@ -102,34 +94,6 @@ public abstract class SoapServlet extends HttpServlet {
             return detectedCharset;
         }
     }
-
-    public interface ContentParseStrategy {
-
-            String parse(byte[] content);
-
-            ContentParseStrategy UTF_8_PARSER = content -> new String(content, StandardCharsets.UTF_8);
-            ContentParseStrategy ISO_8859_1_PARSER = content -> new String(content, StandardCharsets.ISO_8859_1);
-
-    }
-    private static List<String> UTF_8_USERS = Arrays.asList("karriereno", "mynetwork", "stepstone", "webcruiter");
-    private static List<String> ISO_8859_1_USERS = Arrays.asList("globesoft", "hrmanager", "jobbnorge");
-
-
-    private ContentParseStrategy parseStrategy(String eksterntBrukerNavn) {
-
-        if(UTF_8_USERS.contains(eksterntBrukerNavn)) {
-            logger.info("Using UTF_8_PARSER for " + eksterntBrukerNavn);
-            return ContentParseStrategy.UTF_8_PARSER;
-        }
-        if(ISO_8859_1_USERS.contains(eksterntBrukerNavn)) {
-            logger.info("Using ISO_8859_1_PARSER for " + eksterntBrukerNavn);
-            return ContentParseStrategy.ISO_8859_1_PARSER;
-        }
-
-        logger.info("Using UTF_8_PARSER for unknown user, " + eksterntBrukerNavn);
-        return ContentParseStrategy.UTF_8_PARSER;
-    }
-
 
     // Returnerer SoapServletResponse-objektet som gjelder for den aktuelle SoapServlet-versjonen.
     protected abstract SoapServletResponse getResponseMessage(boolean xmlIsWellFormed);

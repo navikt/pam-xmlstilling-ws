@@ -1,37 +1,42 @@
 package no.nav.xmlstilling.ws.web.transport.http;
 
+import no.nav.xmlstilling.ws.DevApplication;
 import no.nav.xmlstilling.ws.common.vo.StillingBatchVO;
 import no.nav.xmlstilling.ws.service.MetricsService;
 import no.nav.xmlstilling.ws.service.facade.StillingBatchFacadeBean;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringReader;
-import java.security.Principal;
+import java.nio.charset.StandardCharsets;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-@Ignore
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DevApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@MockBean({MetricsService.class})
+@ActiveProfiles("test")
 public class SoapServletTest {
 
-    private SoapServlet soapServlet;
-    private HttpServletRequest request;
-    private HttpServletResponse response;
-    private PrintWriter writer;
+    @Autowired
+    private TestRestTemplate template;
+
+    @LocalServerPort
+    int randomPort;
+
+    @MockBean
     private StillingBatchFacadeBean stillingBatchFacadeBean;
-    private MetricsService metricsService;
 
     private String xmlStub = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
             "<soapenv:Envelope " +
@@ -49,87 +54,102 @@ public class SoapServletTest {
             "                     </Id>" +
             "                  </PositionPosting>" +
             "               </PositionPostings>" +
+            "               <PositionSupplier>" +
+            "                  <SupplierId>" +
+            "                     <IdValue>TestÆØÅæøå</IdValue>"+
+            "                  </SupplierId>" +
+            "                  <EntityName>Test AS - Æ Ø Å æ ø å</EntityName>" +
+            "               </PositionSupplier>" +
             "            </m0:PositionOpening>" +
             "         </StillingListe>" +
             "      </LeggInnStillinger>" +
             "   </soapenv:Body>" +
             "</soapenv:Envelope>";
 
-    @Before
-    public void setUp() throws IOException, ServletException {
-        request = mock(HttpServletRequest.class);
-        response = mock(HttpServletResponse.class);
-        writer = mock(PrintWriter.class);
-        stillingBatchFacadeBean = mock(StillingBatchFacadeBean.class);
-        metricsService = mock(MetricsService.class);
+    @Test
+    public void soapServletVedGyldigRequest() {
 
-        when(request.getReader()).thenReturn(new BufferedReader(new StringReader(xmlStub)));
-        when(request.getUserPrincipal()).thenReturn(mock(Principal.class));
-        when(response.getWriter()).thenReturn(writer);
+        ResponseEntity<String> response = template
+                .withBasicAuth("brukerA", "pwdA")
+                .postForEntity(rootUrl("/xmlstilling/SixSoap"), xmlStub, String.class);
+        assertThat(response.getStatusCode().value(), is(200));
+        assertThat(response.getBody(), containsString("MOTTATT"));
 
-        soapServlet = new SoapServletV2();
-        soapServlet.setStillingBatchFacadeBean(stillingBatchFacadeBean);
-        soapServlet.setMetricsService(metricsService);
-        soapServlet.init();
     }
 
     @Test
-    public void soapServletVedGyldigRequest() throws ServletException, IOException {
-        soapServlet.service(request, response);
+    public void soapServletVedGyldigRequestMedIso8859_1content() {
 
-        ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
-        verify(writer).write(argument.capture());
+        template.withBasicAuth("globesoft", "pwd")
+                .postForEntity(rootUrl("/xmlstilling/SixSoap"), xmlStub.getBytes(StandardCharsets.ISO_8859_1), String.class);
 
-        assertThat(argument.getValue(), containsString("MOTTATT"));
+        ArgumentCaptor<StillingBatchVO> argument = ArgumentCaptor.forClass(StillingBatchVO.class);
+        verify(stillingBatchFacadeBean).insertStillingBatch(argument.capture());
+        assertEquals(xmlStub, argument.getValue().getStillingXml());
+
     }
 
     @Test
-    public void soapServletNaarRequestInneholderTomXML() throws ServletException, IOException {
-        when(request.getReader()).thenReturn(new BufferedReader(new StringReader("")));
-        soapServlet.service(request, response);
+    public void soapServletVedGyldigRequestMedUtf_8content() {
 
-        ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
-        verify(writer).write(argument.capture());
+        template.withBasicAuth("webcruiter", "pwd")
+                .postForEntity(rootUrl("/xmlstilling/SixSoap"), xmlStub.getBytes(StandardCharsets.UTF_8), String.class);
 
-        assertThat(argument.getValue(), containsString("IKKE_VALIDERT"));
+        ArgumentCaptor<StillingBatchVO> argument = ArgumentCaptor.forClass(StillingBatchVO.class);
+        verify(stillingBatchFacadeBean).insertStillingBatch(argument.capture());
+        assertEquals(xmlStub, argument.getValue().getStillingXml());
+
     }
 
     @Test
-    public void soapServletV1Respons() throws ServletException, IOException {
-        soapServlet = new SoapServletV1();
-        soapServlet.setStillingBatchFacadeBean(stillingBatchFacadeBean);
-        soapServlet.setMetricsService(metricsService);
-        soapServlet.init();
+    public void soapServletNaarRequestInneholderTomXML() {
 
-        soapServlet.service(request, response);
+        ResponseEntity<String> response = template
+                .withBasicAuth("brukerA", "pwdA")
+                .postForEntity(rootUrl("/xmlstilling/SixSoap"), "", String.class);
+        assertThat(response.getStatusCode().value(), is(200));
+        assertThat(response.getBody(), containsString("IKKE_VALIDERT"));
 
-        ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
-        verify(writer).write(argument.capture());
-
-        assertThat(argument.getValue(), containsString("OK_DUMMY"));
-        assertThat(argument.getValue(), not(containsString("true")));
     }
 
     @Test
-    public void soapServletV2Respons() throws ServletException, IOException {
-        soapServlet.service(request, response);
+    public void soapServletV1Respons() {
 
-        ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
-        verify(writer).write(argument.capture());
+        ResponseEntity<String> response = template
+                .withBasicAuth("brukerA", "pwdA")
+                .postForEntity(rootUrl("/xmlstilling/SixSoap"), xmlStub, String.class);
+        assertThat(response.getStatusCode().value(), is(200));
+        assertThat(response.getBody(), containsString("OK_DUMMY"));
+        assertThat(response.getBody(), not(containsString("true")));
 
-        assertThat(argument.getValue(), containsString("true"));
-        assertThat(argument.getValue(), not(containsString("OK_DUMMY")));
     }
 
     @Test
-    public void soapServletOppretterOgProsessererStillingBatch() throws ServletException, IOException {
-        soapServlet.service(request, response);
+    public void soapServletV2Respons() {
+
+        ResponseEntity<String> response = template
+                .withBasicAuth("brukerA", "pwdA")
+                .postForEntity(rootUrl("/v2/xmlstilling/SixSoap"), xmlStub, String.class);
+        assertThat(response.getStatusCode().value(), is(200));
+        assertThat(response.getBody(), not(containsString("OK_DUMMY")));
+        assertThat(response.getBody(), containsString("true"));
+
+    }
+
+    @Test
+    public void soapServletOppretterOgProsessererStillingBatch() {
+        template.withBasicAuth("brukerA", "pwdA")
+                .postForEntity(rootUrl("/xmlstilling/SixSoap"), xmlStub, String.class);
 
         ArgumentCaptor<StillingBatchVO> argument = ArgumentCaptor.forClass(StillingBatchVO.class);
         verify(stillingBatchFacadeBean).insertStillingBatch(argument.capture());
         assertEquals("0", argument.getValue().getBehandletStatus());
         assertEquals("1234", argument.getValue().getEksternId());
 
+    }
+
+    private String rootUrl(String context) {
+        return "http://localhost:" + randomPort + context;
     }
 
 }

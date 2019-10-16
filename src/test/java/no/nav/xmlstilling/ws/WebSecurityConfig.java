@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@Profile("dev")
+@Profile({"dev", "test"})
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -22,12 +22,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().httpBasic();
     }
-
     @Override
     protected void configure(AuthenticationManagerBuilder builder) throws Exception {
         builder
                 .inMemoryAuthentication()
                 .withUser("brukerA").password("{noop}pwdA").roles("ROLLE_A").and()
+                .withUser("karriereno").password("{noop}pwd").roles("ROLLE_A").and()
+                .withUser("mynetwork").password("{noop}pwd").roles("ROLLE_A").and()
+                .withUser("stepstone").password("{noop}pwd").roles("ROLLE_A").and()
+                .withUser("webcruiter").password("{noop}pwd").roles("ROLLE_A").and()
+                .withUser("globesoft").password("{noop}pwd").roles("ROLLE_A").and()
+                .withUser("hrmanager").password("{noop}pwd").roles("ROLLE_A").and()
+                .withUser("jobbnorge").password("{noop}pwd").roles("ROLLE_A").and()
                 .withUser("brukerB").password("{noop}pwdB").roles("ROLLE_B");
 
     }

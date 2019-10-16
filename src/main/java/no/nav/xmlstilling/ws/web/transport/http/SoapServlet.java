@@ -1,6 +1,5 @@
 package no.nav.xmlstilling.ws.web.transport.http;
 
-import no.nav.xmlstilling.ws.common.util.ConverterUtils;
 import no.nav.xmlstilling.ws.common.util.XMLValidatorHelper;
 import no.nav.xmlstilling.ws.common.vo.StillingBatchVO;
 import no.nav.xmlstilling.ws.service.MetricsService;
@@ -19,10 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 
 public abstract class SoapServlet extends HttpServlet {
     private static final String CONTENT_TYPE_TEXT_XML = "text/xml";
@@ -50,20 +49,18 @@ public abstract class SoapServlet extends HttpServlet {
     @PostMapping("/xmlstilling/SixSoap")
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
-        BufferedReader br = req.getReader();
-        String stillingXml = ConverterUtils.read(br);
+        String stillingXml = parseContent(req.getInputStream().readAllBytes());
 
         SoapServletResponse soapSvar;
         String eksterntBrukerNavn = req.getUserPrincipal().getName();
 
         if (stillingXml.trim().length() == 0) {
-            logger.info("stillingxml fra " + eksterntBrukerNavn + " var tom streng! contentType = " + req.getContentType() + ", characterEncoding" + req.getCharacterEncoding());
+            logger.info("stillingxml fra " + eksterntBrukerNavn + " var tom streng! contentType = " + req.getContentType() + ", characterEncoding " + req.getCharacterEncoding());
             soapSvar = getResponseMessage(false);
         } else {
             XMLValidatorHelper xmlValidatorHelper = new XMLValidatorHelper();
             boolean xmlIsWellFormed = xmlValidatorHelper.isWellFormed(stillingXml);
-            logger.debug("xml fra bruker: " + eksterntBrukerNavn + " iswellformed: " + xmlIsWellFormed + " contentType = " + req.getContentType() + ", characterEncoding" + req.getCharacterEncoding());
+            logger.debug("xml fra bruker: " + eksterntBrukerNavn + " iswellformed: " + xmlIsWellFormed + " contentType = " + req.getContentType() + ", characterEncoding " + req.getCharacterEncoding());
             logger.debug("Stillingxml: \n" + stillingXml);
             opprettOgProsesserStillingbatch(stillingXml, eksterntBrukerNavn, xmlIsWellFormed);
             soapSvar = getResponseMessage(xmlIsWellFormed);
@@ -76,6 +73,14 @@ public abstract class SoapServlet extends HttpServlet {
         out.write(soapSvar.getMessage());
         out.flush();
         out.close();
+    }
+
+    private String parseContent(byte[] content) {
+        try {
+            return new String(content, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            return new String(content, StandardCharsets.ISO_8859_1);
+        }
     }
 
     // Returnerer SoapServletResponse-objektet som gjelder for den aktuelle SoapServlet-versjonen.

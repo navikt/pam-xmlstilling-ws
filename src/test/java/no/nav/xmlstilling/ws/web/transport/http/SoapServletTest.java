@@ -4,6 +4,7 @@ import no.nav.xmlstilling.ws.common.vo.StillingBatchVO;
 import no.nav.xmlstilling.ws.service.MetricsService;
 import no.nav.xmlstilling.ws.service.facade.StillingBatchFacadeBean;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -22,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
+@Ignore
 public class SoapServletTest {
 
     private SoapServlet soapServlet;

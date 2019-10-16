@@ -1,24 +1,22 @@
 package no.nav.xmlstilling.ws.web.transport.http;
 
-public class SoapServletResponse {
+class SoapServletResponse {
 
     private boolean okResponse;
     private String message;
-
-    private SoapServletResponse() {}
 
     private SoapServletResponse(String eksekveringOkTekst, boolean okResponse) {
         this.message = createResponseMessage(okResponse, eksekveringOkTekst);
         this.okResponse = okResponse;
     }
 
-    public static final SoapServletResponse RESPONSE_V1_OK =
+    static final SoapServletResponse RESPONSE_V1_OK =
             new SoapServletResponse("OK_DUMMY", true);
-    public static final SoapServletResponse RESPONSE_V1_ERROR =
+    static final SoapServletResponse RESPONSE_V1_ERROR =
             new SoapServletResponse("OK_DUMMY", false);
-    public static final SoapServletResponse RESPONSE_V2_OK =
+    static final SoapServletResponse RESPONSE_V2_OK =
             new SoapServletResponse("true", true);
-    public static final SoapServletResponse RESPONSE_V2_ERROR =
+    static final SoapServletResponse RESPONSE_V2_ERROR =
             new SoapServletResponse("true", false);
 
     private static final String MOTTATT = "MOTTATT";
@@ -52,11 +50,11 @@ public class SoapServletResponse {
                 okResponse ? MOTTATT : IKKE_VALIDERT);
     }
 
-    public String getMessage() {
+    String getMessage() {
         return message;
     }
 
-    public boolean isOkResponse() {
+    boolean isOkResponse() {
         return okResponse;
     }
 }

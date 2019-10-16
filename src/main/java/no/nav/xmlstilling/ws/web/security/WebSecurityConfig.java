@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-@Profile("!dev")
+@Profile("!dev & !test")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static transient Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);

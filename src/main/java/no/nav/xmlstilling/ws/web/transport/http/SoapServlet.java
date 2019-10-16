@@ -79,6 +79,7 @@ public abstract class SoapServlet extends HttpServlet {
         try {
             return new String(content, StandardCharsets.UTF_8);
         } catch (Exception e) {
+            logger.info("Failed parsing as UTF 8 - trying ISO_8859_1 instead");
             return new String(content, StandardCharsets.ISO_8859_1);
         }
     }

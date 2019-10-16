@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public abstract class SoapServlet extends HttpServlet {
     private static final String CONTENT_TYPE_TEXT_XML = "text/xml";
@@ -49,10 +52,10 @@ public abstract class SoapServlet extends HttpServlet {
     @PostMapping("/xmlstilling/SixSoap")
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String stillingXml = parseContent(req.getInputStream().readAllBytes());
-
         SoapServletResponse soapSvar;
         String eksterntBrukerNavn = req.getUserPrincipal().getName();
+
+        String stillingXml = parseStrategy(eksterntBrukerNavn).parse(req.getInputStream().readAllBytes());
 
         if (stillingXml.trim().length() == 0) {
             logger.info("stillingxml fra " + eksterntBrukerNavn + " var tom streng! contentType = " + req.getContentType() + ", characterEncoding " + req.getCharacterEncoding());
@@ -75,14 +78,33 @@ public abstract class SoapServlet extends HttpServlet {
         out.close();
     }
 
-    private String parseContent(byte[] content) {
-        try {
-            return new String(content, StandardCharsets.UTF_8);
-        } catch (Exception e) {
-            logger.info("Failed parsing as UTF 8 - trying ISO_8859_1 instead");
-            return new String(content, StandardCharsets.ISO_8859_1);
-        }
+    public interface ContentParseStrategy {
+
+            String parse(byte[] content);
+
+            ContentParseStrategy UTF_8_PARSER = content -> new String(content, StandardCharsets.UTF_8);
+            ContentParseStrategy ISO_8859_1_PARSER = content -> new String(content, StandardCharsets.ISO_8859_1);
+
     }
+    private static List<String> UTF_8_USERS = Arrays.asList("karriereno", "mynetwork", "stepstone", "webcruiter");
+    private static List<String> ISO_8859_1_USERS = Arrays.asList("globesoft", "hrmanager", "jobbnorge");
+
+
+    private ContentParseStrategy parseStrategy(String eksterntBrukerNavn) {
+
+        if(UTF_8_USERS.contains(eksterntBrukerNavn)) {
+            logger.info("Using UTF_8_PARSER for " + eksterntBrukerNavn);
+            return ContentParseStrategy.UTF_8_PARSER;
+        }
+        if(ISO_8859_1_USERS.contains(eksterntBrukerNavn)) {
+            logger.info("Using ISO_8859_1_PARSER for " + eksterntBrukerNavn);
+            return ContentParseStrategy.ISO_8859_1_PARSER;
+        }
+
+        logger.info("Using UTF_8_PARSER for unknown user, " + eksterntBrukerNavn);
+        return ContentParseStrategy.UTF_8_PARSER;
+    }
+
 
     // Returnerer SoapServletResponse-objektet som gjelder for den aktuelle SoapServlet-versjonen.
     protected abstract SoapServletResponse getResponseMessage(boolean xmlIsWellFormed);

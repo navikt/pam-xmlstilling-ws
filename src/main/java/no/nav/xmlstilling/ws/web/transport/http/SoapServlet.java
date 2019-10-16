@@ -4,6 +4,7 @@ import no.nav.xmlstilling.ws.common.util.XMLValidatorHelper;
 import no.nav.xmlstilling.ws.common.vo.StillingBatchVO;
 import no.nav.xmlstilling.ws.service.MetricsService;
 import no.nav.xmlstilling.ws.service.facade.StillingBatchFacadeBean;
+import org.mozilla.universalchardet.UniversalDetector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,9 @@ public abstract class SoapServlet extends HttpServlet {
         SoapServletResponse soapSvar;
         String eksterntBrukerNavn = req.getUserPrincipal().getName();
 
-        String stillingXml = parseStrategy(eksterntBrukerNavn).parse(req.getInputStream().readAllBytes());
+        byte[] soapRequestBytes = req.getInputStream().readAllBytes();
+        detekterTegnsett(soapRequestBytes);
+        String stillingXml = parseStrategy(eksterntBrukerNavn).parse(soapRequestBytes);
 
         if (stillingXml.trim().length() == 0) {
             logger.info("stillingxml fra " + eksterntBrukerNavn + " var tom streng! contentType = " + req.getContentType() + ", characterEncoding " + req.getCharacterEncoding());
@@ -76,6 +79,28 @@ public abstract class SoapServlet extends HttpServlet {
         out.write(soapSvar.getMessage());
         out.flush();
         out.close();
+    }
+
+    protected String detekterTegnsett(byte[] tegn) {
+        String detectedCharset = null;
+        String defaultCharset = "UTF-8";
+        if (tegn != null && tegn.length > 0) {
+            UniversalDetector detector = new UniversalDetector();
+            detector.handleData(tegn);
+            detector.dataEnd();
+            detectedCharset = detector.getDetectedCharset();
+            if ("WINDOWS-1252".equals(detectedCharset)) {
+                detectedCharset = "ISO-8859-1";
+            }
+        }
+
+        if (detectedCharset == null) {
+            logger.info("Greide ikke å detektere tegnsett i SOAP-request, bruker default {}.", defaultCharset);
+            return defaultCharset;
+        } else {
+            logger.info("Detekterte at tegnsett {} er brukt i SOAP-request", detectedCharset);
+            return detectedCharset;
+        }
     }
 
     public interface ContentParseStrategy {

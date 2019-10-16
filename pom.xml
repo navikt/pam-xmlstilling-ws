@@ -26,6 +26,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <session.cookie.secure>true</session.cookie.secure>
         <logstash-logback-encoder.version>6.2</logstash-logback-encoder.version>
+        <juniversalchardet.version>2.3.0</juniversalchardet.version>
     </properties>
 
     <profiles>
@@ -269,6 +270,11 @@
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.albfernandez</groupId>
+            <artifactId>juniversalchardet</artifactId>
+            <version>${juniversalchardet.version}</version>
         </dependency>
     </dependencies>
 

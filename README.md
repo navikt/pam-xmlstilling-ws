@@ -86,3 +86,7 @@ Ok respons fra /xmlstilling/v2/SixSoap vil se slik ut:
       </LeggInnStillingerResponse>
    </soapenv:Body>
 </soapenv:Envelope>`
+
+
+## Opprinnelig dokumentasjon
+Du finner opprinnelig dokumentasjon før migrering til ny plattform [her](doc/MIGRATED_USER_DOC.md). D

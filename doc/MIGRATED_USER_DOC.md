@@ -208,11 +208,11 @@ I denne første versjonen av tjenesten er følgende felter fra HR-XML i bruk.
 
 Ref. til nav.no | Navn på element I HR-XML | Obl. | Forklaring
 --------------- | ------------------------ | ---- | ----------
--                | <SOAP-ENV:Envelope xmlns:m="http://www.nav.no/nav_stilling_reg.wsdl" xmlns:m0="http://www.nav.no/nav_stilling_typer.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:m2="http://ns.hr-xml.org/2007-04-15" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"> <SOAP-ENV:Body> | | Dette er det namespace som skal brukes. Web servicen vil feile hvis man bruker noe annet enn xmlns:m0=http://www.nav.no/nav_stilling_typer.xsd.` 
--             | `PositionPostings.PositionPosting.Id.IdValue`                                               | N | Referansenummer  (ident) til avsenders annonse. Brukes internt for sammenligning
+Ingen                | <SOAP-ENV:Envelope xmlns:m="http://www.nav.no/nav_stilling_reg.wsdl" xmlns:m0="http://www.nav.no/nav_stilling_typer.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:m2="http://ns.hr-xml.org/2007-04-15" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"> <SOAP-ENV:Body> | | Dette er det namespace som skal brukes. Web servicen vil feile hvis man bruker noe annet enn xmlns:m0=http://www.nav.no/nav_stilling_typer.xsd.` 
+Ingen        | `PositionPostings.PositionPosting.Id.IdValue`                                               | N | Referansenummer  (ident) til avsenders annonse. Brukes internt for sammenligning
 1             | `PositionProfile.ProfileName`                                                               | J | Navn på organisasjon (arbeidsgivers navn)
 9             | `PositionProfile.ProfileName`                                                               | J | Tittel på stilling/yrkestittel
--             | `PositionProfile.PositionDateInfo.StartAsSoonAsPossible`                                    | N | Hvis dato ikke brukes, men ”snarest” gjelder. Verdi skal være true eller false hvis feltet brukes
+Ingen         | `PositionProfile.PositionDateInfo.StartAsSoonAsPossible`                                    | N | Hvis dato ikke brukes, men ”snarest” gjelder. Verdi skal være true eller false hvis feltet brukes
 17            | `PositionProfile.PositionDateInfo.StartDate`                                                | N | Stilling ledig fra dato
 18            | `PositionProfile.PositionDateInfo.ExpectedEndDate`                                          | N | Stilling ledig til dato
 20            | `PositionProfile.PositionDateInfo.MaximumStartDate`                                         | N | Søknadsfrist 
@@ -225,7 +225,7 @@ Ref. til nav.no | Navn på element I HR-XML | Obl. | Forklaring
 22 + 13 + 19  | `PositionProfile.FormattedPositionDescription.Value`                                        | J | Fremst i teksten legges hvis mulig bedriftens organisasjonsnummer, deretter om ønskelig kontaktinformasjon for tilbakemelding fra NAV, så følger stillingsbeskrivelse, krav til kompetanse, utdanning m.m. I tillegg legges alle andre relevante opplysninger som ikke passer andre steder, inn her. Det kan være opplysninger om kontaktperson og kontaktinformasjon, søknadslenke, søknad merkes, stillingsid. Legg inn disse med aktuell ledetekst.
 5             | `PositionProfile.HowToApply.ApplicationMethod.InternetWebAddress `                          | N | Adresse til arbeidsgivers nettside. Max lengde 100
 11            | `NumberToFill`                                                                              | J | Antall stillinger i annonsen
--             | `DistributionGuidelines@validFrom`                                                          | N | Angir dato i framtid for når publisering skal starte. Hvis ikke utfylt, vil publisering skje umiddelbart etter saksbehandlers godkjenning
+Ingen         | `DistributionGuidelines@validFrom`                                                          | N | Angir dato i framtid for når publisering skal starte. Hvis ikke utfylt, vil publisering skje umiddelbart etter saksbehandlers godkjenning
 
 ### Eksempel på Soap-melding
 

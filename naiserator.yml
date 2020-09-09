@@ -1,0 +1,30 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: pam-xmlstilling-ws
+  namespace: default
+  labels:
+    team: teampam
+spec:
+  image: {{ image }}
+  port: 9022
+  replicas:
+    min: 2
+    max: 4
+    cpuThresholdPercentage: 50
+  liveness:
+    initialDelay: 30
+    path: /internal/isAlive
+  readiness:
+    initialDelay: 30
+    path: /internal/isAlive
+  prometheus:
+    enabled: true
+    path: /internal/actuator/prometheus
+  webproxy: true
+  vault:
+    enabled: true
+  ingresses:
+  {{#each ingress as |url|}}
+     - {{url}}
+  {{/each}}

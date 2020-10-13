@@ -22,7 +22,7 @@
 
     <properties>
         <java.version>12</java.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <session.cookie.secure>true</session.cookie.secure>
         <logstash-logback-encoder.version>6.2</logstash-logback-encoder.version>

@@ -25,7 +25,7 @@
         <junit.version>4.12</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <session.cookie.secure>true</session.cookie.secure>
-        <logstash-logback-encoder.version>6.2</logstash-logback-encoder.version>
+        <logstash-logback-encoder.version>7.0</logstash-logback-encoder.version>
         <juniversalchardet.version>2.3.0</juniversalchardet.version>
     </properties>
 
